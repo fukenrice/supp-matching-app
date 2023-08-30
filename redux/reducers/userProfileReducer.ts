@@ -3,9 +3,10 @@ import ProblemModel from "../../models/ProblemModel";
 import HobbyModel from "../../models/HobbyModel";
 import {ProfileActionTypes} from "../action-types";
 import {Reducer} from "redux";
+import {EnumX} from "../../utils/IterableEnum";
 
 interface ProfileData {
-    _stage: "INIT" | ProfileActionTypes | "FILLED"
+    _stage: ProfileActionTypes
     name: string,
     phone: string,
     birthday: string,
@@ -20,7 +21,7 @@ interface ProfileData {
 }
 
 const INITIAL_STATE: ProfileData =  {
-    _stage: "INIT",
+    _stage: ProfileActionTypes.INIT,
     name: "",
     phone: "",
     birthday: "",
@@ -37,9 +38,20 @@ const INITIAL_STATE: ProfileData =  {
 
 export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state= INITIAL_STATE, action: ProfileAction): ProfileData => {
     switch (action.type) {
+        case ProfileActionTypes.INIT:
+            return {...state, _stage: ProfileActionTypes.ADD_PHONE}
+        case ProfileActionTypes.GO_TO_PREVIOUS:
+            const stage = EnumX.of(ProfileActionTypes).prev(state._stage)
+            if (stage === undefined) {
+                return {...state}
+            } else {
+                return {...state, _stage: stage}
+            }
         case ProfileActionTypes.ADD_PHONE:
+            // TODO: Use firebase to auth by phone number, after the response return new state. Maybe use firebase from component, not here
             return {...state, phone: action.payload, _stage: ProfileActionTypes.CONFIRM_PHONE}
         case ProfileActionTypes.CONFIRM_PHONE:
+            // Skip next steps, get profile data and go to stage "FINISH" if phone exists.
             return {...state, _stage: ProfileActionTypes.ADD_NAME}
         case ProfileActionTypes.ADD_NAME:
             return {...state, name: action.payload, _stage: ProfileActionTypes.ADD_BIRTHDAY}

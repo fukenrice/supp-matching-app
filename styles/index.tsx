@@ -12,7 +12,13 @@ export const buttonText: TextStyle = {
     fontSize: 15,
 }
 
-export const styles = StyleSheet.create({
+export const loginHintsText: TextStyle = {
+    fontSize: 20,
+    fontWeight: "500",
+    marginBottom: 20
+}
+
+export const commonStyles = StyleSheet.create({
     buttonActiveContainer: {
         ...button,
         backgroundColor: "#363636"
