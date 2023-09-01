@@ -7,6 +7,9 @@ import ButtonInactive from "../buttons/ButtonInactive";
 import {useDispatch, useSelector} from "react-redux";
 import {addPhone} from "../../redux/action-creators/ProfileActionCreators";
 import Spinner from "react-native-loading-spinner-overlay";
+import firebase from "firebase/compat";
+import RecaptchaVerifier = firebase.auth.RecaptchaVerifier;
+import {auth} from "../../firebase/config";
 
 export default function PhoneScreen() {
     const [value, setValue] = useState("");
@@ -15,9 +18,6 @@ export default function PhoneScreen() {
     const [spinner, setSpinner] = useState(false)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-
-    }, []);
 
     return <View style={styles.container}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
