@@ -5,10 +5,12 @@ import StartScreen from "./StartScreen";
 import {useEffect, useState} from "react";
 import {ProfileActionTypes} from "../../redux/action-types";
 import PhoneScreen from "./PhoneScreen";
-import {goToPrevious} from "../../redux/action-creators/ProfileActionCreators";
 import {addPhone, goToPrevious} from "../../redux/action-creators/ProfileActionCreators";
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'
 import PhoneConfirmationScreen from "./PhoneConfirmationScreen";
+import NameScreen from "./NameScreen";
+import BirthdayScreen from "./BirthdayScreen";
+import GenderScreen from "./GenderScreen";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
@@ -48,10 +50,11 @@ export default function LoginRoot() {
 
     return <View style={styles.container}>
         {state._stage === ProfileActionTypes.INIT && <StartScreen />}
-        {state._stage === ProfileActionTypes.ADD_PHONE && <PhoneScreen />}
-
         {state._stage === ProfileActionTypes.ADD_PHONE && <PhoneScreen authFun={signInWithPhoneNumber} />}
         {state._stage === ProfileActionTypes.CONFIRM_PHONE && <PhoneConfirmationScreen confirmCode={confirmCode}/>}
+        {state._stage === ProfileActionTypes.ADD_NAME && <NameScreen />}
+        {state._stage === ProfileActionTypes.ADD_BIRTHDAY && <BirthdayScreen />}
+        {state._stage === ProfileActionTypes.ADD_GENDER && <GenderScreen />}
 
     </View>
 }
@@ -64,3 +67,40 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
+
+
+
+
+// import {StyleSheet, Text, View} from "react-native";
+// import {loginHintsText} from "../../styles";
+// import ButtonActive from "../buttons/ButtonActive";
+// import React from "react";
+// import ButtonInactive from "../buttons/ButtonInactive";
+//
+// export default function NameScreen() {
+//
+//     return <View style={styles.container}>
+//         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
+//             <Text style={loginHintsText}></Text>
+//
+//         </View>
+//
+//         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
+//             {true ?
+//                 <ButtonActive text={"Далее"} onClick={() => {
+//                 }}/>
+//                 :
+//                 <ButtonInactive text={"Далее"}/>
+//             }
+//         </View>
+//     </View>
+// }
+//
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignItems: 'center',
+//         alignSelf: 'stretch',
+//         justifyContent: 'center',
+//     },
+// })

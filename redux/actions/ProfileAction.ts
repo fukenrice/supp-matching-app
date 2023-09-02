@@ -27,7 +27,7 @@ export interface AddNameAction {
 
 export interface AddBirthdayAction {
     type: ProfileActionTypes.ADD_BIRTHDAY,
-    payload: string
+    payload: Date
 }
 
 export interface AddGenderAction {

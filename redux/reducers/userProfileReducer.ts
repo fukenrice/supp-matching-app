@@ -9,7 +9,7 @@ interface ProfileData {
     _stage: ProfileActionTypes
     name: string,
     phone: string,
-    birthday: string,
+    birthday: Date | null,
     gender: string,
     problems: ProblemModel[],
     hobbies: HobbyModel[],
@@ -17,14 +17,14 @@ interface ProfileData {
     photos: string[],
     interestedGender: string,
     lowerAge: number,
-    higherAge: number
+    higherAge: number,
 }
 
 const INITIAL_STATE: ProfileData =  {
     _stage: ProfileActionTypes.INIT,
     name: "",
     phone: "",
-    birthday: "",
+    birthday: null,
     gender: "",
     problems: [],
     hobbies: [],

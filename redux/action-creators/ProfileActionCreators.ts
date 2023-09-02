@@ -1,4 +1,3 @@
-import {AddPhoneAction, GoToPreviousAction, InitAction} from "../actions/ProfileAction";
 import {
     AddBirthdayAction, AddGenderAction,
     AddNameAction,
@@ -23,4 +22,16 @@ export const addPhone = (phoneNumber: string): AddPhoneAction => {
 
 export const confirmPhone = (code: string): ConfirmPhoneAction => {
     return {type: ProfileActionTypes.CONFIRM_PHONE, payload: code}
+}
+
+export const addName = (name: string): AddNameAction => {
+    return {type: ProfileActionTypes.ADD_NAME, payload: name}
+}
+
+export const addBirthday = (birthday: Date): AddBirthdayAction => {
+    return {type: ProfileActionTypes.ADD_BIRTHDAY, payload: birthday}
+}
+
+export const addGender = (gender: string): AddGenderAction => {
+    return {type: ProfileActionTypes.ADD_GENDER, payload: gender}
 }
