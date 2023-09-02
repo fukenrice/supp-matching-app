@@ -17,7 +17,7 @@ export interface AddPhoneAction {
 
 export interface ConfirmPhoneAction {
     type: ProfileActionTypes.CONFIRM_PHONE,
-    payload: number
+    payload: string
 }
 
 export interface AddNameAction {

@@ -48,10 +48,9 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state= I
                 return {...state, _stage: stage}
             }
         case ProfileActionTypes.ADD_PHONE:
-            // TODO: Use firebase to auth by phone number, after the response return new state. Maybe use firebase from component, not here
             return {...state, phone: action.payload, _stage: ProfileActionTypes.CONFIRM_PHONE}
         case ProfileActionTypes.CONFIRM_PHONE:
-            // Skip next steps, get profile data and go to stage "FINISH" if phone exists.
+            // TODO: Skip next steps, get profile data and go to stage "FINISH" if phone exists.
             return {...state, _stage: ProfileActionTypes.ADD_NAME}
         case ProfileActionTypes.ADD_NAME:
             return {...state, name: action.payload, _stage: ProfileActionTypes.ADD_BIRTHDAY}

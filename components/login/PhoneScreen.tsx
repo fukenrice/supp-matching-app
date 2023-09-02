@@ -1,31 +1,18 @@
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {commonStyles, loginHintsText} from "../../styles";
+import {StyleSheet, Text, View} from "react-native";
+import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import PhoneInput from "react-native-phone-number-input";
 import ButtonInactive from "../buttons/ButtonInactive";
-import {useDispatch, useSelector} from "react-redux";
-import {addPhone} from "../../redux/action-creators/ProfileActionCreators";
-import Spinner from "react-native-loading-spinner-overlay";
-import firebase from "firebase/compat";
-import RecaptchaVerifier = firebase.auth.RecaptchaVerifier;
-import {auth} from "../../firebase/config";
 
-export default function PhoneScreen() {
+export default function PhoneScreen({authFun}: {authFun: (val: string) => void }) {
     const [value, setValue] = useState("");
     const [formattedValue, setFormattedValue] = useState("");
     const phoneInput = useRef<PhoneInput>(null);
-    const [spinner, setSpinner] = useState(false)
-    const dispatch = useDispatch()
 
 
     return <View style={styles.container}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
-            <Spinner
-                visible={spinner}
-                textContent={'Авторизация...'}
-                textStyle={{color: "white"}}
-            />
             <Text style={loginHintsText}>Введи номер телефона</Text>
 
                 <PhoneInput
@@ -48,22 +35,14 @@ export default function PhoneScreen() {
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             {phoneInput.current?.isValidNumber(value) ?
                 <ButtonActive text={"Далее"} onClick={() => {
-                    setSpinner(true)
                     console.log("Phone screen: got phone number: " + formattedValue)
-                    // TODO: firebase request to handle response in component
-                    // dispatch(addPhone(formattedValue))
-                    setTimeout(() => {
-                        setSpinner(false)
-                    }, 1000)
+                    authFun(formattedValue)
             }}/>
             :
             <ButtonInactive text={"Далее"}/>
             }
-
         </View>
-
     </View>
-
 }
 
 const styles = StyleSheet.create({
