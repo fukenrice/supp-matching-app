@@ -4,6 +4,7 @@ import HobbyModel from "../../models/HobbyModel";
 import {ProfileActionTypes} from "../action-types";
 import {Reducer} from "redux";
 import {EnumX} from "../../utils/IterableEnum";
+import {getProblems} from "../../data/repo/repo";
 
 interface ProfileData {
     _stage: ProfileActionTypes
@@ -20,7 +21,7 @@ interface ProfileData {
     higherAge: number,
 }
 
-const INITIAL_STATE: ProfileData =  {
+const INITIAL_STATE: ProfileData = {
     _stage: ProfileActionTypes.INIT,
     name: "",
     phone: "",
@@ -36,11 +37,16 @@ const INITIAL_STATE: ProfileData =  {
 }
 
 
-export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state= INITIAL_STATE, action: ProfileAction): ProfileData => {
+export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = INITIAL_STATE, action: ProfileAction): ProfileData => {
     switch (action.type) {
         case ProfileActionTypes.INIT:
             return {...state, _stage: ProfileActionTypes.ADD_PHONE}
         case ProfileActionTypes.GO_TO_PREVIOUS:
+            if (state._stage === ProfileActionTypes.ADD_PROBLEMS ||
+                state._stage === ProfileActionTypes.ADD_HOBBIES ||
+                state._stage === ProfileActionTypes.ADD_PHOTO) {
+                return {...state, _stage: ProfileActionTypes.FILL_INFO}
+            }
             const stage = EnumX.of(ProfileActionTypes).prev(state._stage)
             if (stage === undefined) {
                 return {...state}
@@ -57,15 +63,17 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state= I
         case ProfileActionTypes.ADD_BIRTHDAY:
             return {...state, birthday: action.payload, _stage: ProfileActionTypes.ADD_GENDER}
         case ProfileActionTypes.ADD_GENDER:
-            return {...state, gender: action.payload, _stage: ProfileActionTypes.ADD_PROBLEM}
-        case ProfileActionTypes.ADD_PROBLEM:
-            return {...state, problems: [...state.problems, action.payload]}
+            return {...state, gender: action.payload, _stage: ProfileActionTypes.FILL_INFO}
+        case ProfileActionTypes.FILL_INFO:
+            return state
+        case ProfileActionTypes.ADD_PROBLEMS:
+            return {...state, _stage: ProfileActionTypes.ADD_PROBLEMS}
         case ProfileActionTypes.CONFIRM_PROBLEMS:
-            return {...state, _stage: ProfileActionTypes.ADD_HOBBY}
-        case ProfileActionTypes.ADD_HOBBY:
-            return {...state, hobbies: [...state.hobbies, action.payload]}
+            return {...state, _stage: ProfileActionTypes.FILL_INFO, problems: action.payload}
+        case ProfileActionTypes.ADD_HOBBIES:
+            return {...state, _stage: ProfileActionTypes.ADD_HOBBIES}
         case ProfileActionTypes.CONFIRM_HOBBIES:
-            return {...state,  _stage: ProfileActionTypes.ADD_DESC}
+            return {...state, _stage: ProfileActionTypes.FILL_INFO, hobbies: action.payload}
         case ProfileActionTypes.ADD_DESC:
             return {...state, desc: action.payload, _stage: ProfileActionTypes.ADD_PHOTO}
         case ProfileActionTypes.ADD_PHOTO:

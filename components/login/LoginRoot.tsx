@@ -11,6 +11,10 @@ import PhoneConfirmationScreen from "./PhoneConfirmationScreen";
 import NameScreen from "./NameScreen";
 import BirthdayScreen from "./BirthdayScreen";
 import GenderScreen from "./GenderScreen";
+import InfoScreen from "./InfoScreen";
+import BulletScreen from "./ProblemsScreen";
+import ProblemsScreen from "./ProblemsScreen";
+import HobbiesScreen from "./HobbiesScreen";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
@@ -55,6 +59,9 @@ export default function LoginRoot() {
         {state._stage === ProfileActionTypes.ADD_NAME && <NameScreen />}
         {state._stage === ProfileActionTypes.ADD_BIRTHDAY && <BirthdayScreen />}
         {state._stage === ProfileActionTypes.ADD_GENDER && <GenderScreen />}
+        {state._stage === ProfileActionTypes.FILL_INFO && <InfoScreen />}
+        {state._stage === ProfileActionTypes.ADD_PROBLEMS && <ProblemsScreen />}
+        {state._stage === ProfileActionTypes.ADD_HOBBIES && <HobbiesScreen />}
 
     </View>
 }

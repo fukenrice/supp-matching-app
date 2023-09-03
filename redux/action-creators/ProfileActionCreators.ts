@@ -1,12 +1,20 @@
 import {
-    AddBirthdayAction, AddGenderAction,
+    AddBirthdayAction,
+    AddDescAction,
+    AddGenderAction,
+    AddHobbiesAction,
     AddNameAction,
     AddPhoneAction,
+    AddProblemsAction,
+    ConfirmHobbiesAction,
     ConfirmPhoneAction,
+    ConfirmProblemsAction,
     GoToPreviousAction,
     InitAction
 } from "../actions/ProfileAction";
 import {ProfileActionTypes} from "../action-types";
+import ProblemModel from "../../models/ProblemModel";
+import HobbyModel from "../../models/HobbyModel";
 
 export const init = (): InitAction => {
     return {type: ProfileActionTypes.INIT}
@@ -34,4 +42,24 @@ export const addBirthday = (birthday: Date): AddBirthdayAction => {
 
 export const addGender = (gender: string): AddGenderAction => {
     return {type: ProfileActionTypes.ADD_GENDER, payload: gender}
+}
+
+export const addProblems = (): AddProblemsAction => {
+    return {type: ProfileActionTypes.ADD_PROBLEMS}
+}
+
+export const addHobbies = (): AddHobbiesAction => {
+    return {type: ProfileActionTypes.ADD_HOBBIES}
+}
+
+export const confirmProblems = (problems: ProblemModel[]): ConfirmProblemsAction => {
+    return {type: ProfileActionTypes.CONFIRM_PROBLEMS, payload: problems}
+}
+
+export const confirmHobbies = (hobbies: HobbyModel[]): ConfirmHobbiesAction => {
+    return {type: ProfileActionTypes.CONFIRM_HOBBIES, payload: hobbies}
+}
+
+export const addDesc = (desc: string): AddDescAction => {
+    return {type: ProfileActionTypes.ADD_DESC, payload: desc}
 }

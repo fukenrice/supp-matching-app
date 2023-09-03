@@ -35,22 +35,26 @@ export interface AddGenderAction {
     payload: string
 }
 
-export interface AddProblemAction {
-    type: ProfileActionTypes.ADD_PROBLEM,
-    payload: ProblemModel
+export interface FillInfoAction {
+    type: ProfileActionTypes.FILL_INFO
+}
+
+export interface AddProblemsAction {
+    type: ProfileActionTypes.ADD_PROBLEMS
 }
 
 export interface ConfirmProblemsAction {
-    type: ProfileActionTypes.CONFIRM_PROBLEMS
+    type: ProfileActionTypes.CONFIRM_PROBLEMS,
+    payload: ProblemModel[]
 }
 
-export interface AddHobbyAction {
-    type: ProfileActionTypes.ADD_HOBBY,
-    payload: HobbyModel
+export interface AddHobbiesAction {
+    type: ProfileActionTypes.ADD_HOBBIES
 }
 
 export interface ConfirmHobbiesAction{
-    type: ProfileActionTypes.CONFIRM_HOBBIES
+    type: ProfileActionTypes.CONFIRM_HOBBIES,
+    payload: HobbyModel[]
 }
 
 export interface AddDescAction {
@@ -91,9 +95,10 @@ export type ProfileAction =
     | AddNameAction
     | AddBirthdayAction
     | AddGenderAction
-    | AddProblemAction
+    | FillInfoAction
+    | AddProblemsAction
     | ConfirmProblemsAction
-    | AddHobbyAction
+    | AddHobbiesAction
     | ConfirmHobbiesAction
     | AddDescAction
     | AddPhotoAction
