@@ -1,4 +1,5 @@
 import {
+    AddAgeRangeAction,
     AddBirthdayAction,
     AddDescAction,
     AddGenderAction,
@@ -78,4 +79,8 @@ export const confirmPhotos = (): ConfirmPhotosAction => {
 
 export const addInterestedGender = (gender: Genders): AddInterestedGenderAction => {
     return {type: ProfileActionTypes.ADD_INTERESTED_GENDER, payload: gender}
+}
+
+export const addAgeRange = (min: number, max: number): AddAgeRangeAction => {
+    return {type: ProfileActionTypes.ADD_AGE_RANGE, payload: {lowerEdge: min, higherEdge: max}}
 }

@@ -16,6 +16,7 @@ import ProblemsScreen from "./ProblemsScreen";
 import HobbiesScreen from "./HobbiesScreen";
 import PhotosScreen from "./PhotosScreen";
 import InterestedGenderScreen from "./InterestedGenderScreen";
+import AgeRangeScreen from "./AgeRangeScreen";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
@@ -65,6 +66,7 @@ export default function LoginRoot() {
         {state._stage === ProfileActionTypes.ADD_HOBBIES && <HobbiesScreen />}
         {state._stage === ProfileActionTypes.ADD_PHOTO && <PhotosScreen />}
         {state._stage === ProfileActionTypes.ADD_INTERESTED_GENDER && <InterestedGenderScreen />}
+        {state._stage === ProfileActionTypes.ADD_AGE_RANGE && <AgeRangeScreen />}
 
     </View>
 }

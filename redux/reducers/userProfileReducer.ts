@@ -4,7 +4,6 @@ import HobbyModel from "../../data/models/HobbyModel";
 import {ProfileActionTypes} from "../action-types";
 import {Reducer} from "redux";
 import {EnumX} from "../../utils/IterableEnum";
-import {getProblems} from "../../data/repo/repo";
 
 interface ProfileData {
     _stage: ProfileActionTypes
@@ -87,11 +86,9 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
         case ProfileActionTypes.CONFIRM_PHOTOS:
             return {...state, _stage: ProfileActionTypes.ADD_INTERESTED_GENDER}
         case ProfileActionTypes.ADD_INTERESTED_GENDER:
-            return {...state, interestedGender: action.payload, _stage: ProfileActionTypes.ADD_LOWER_AGE_EDGE}
-        case ProfileActionTypes.ADD_LOWER_AGE_EDGE:
-            return {...state, lowerAge: action.payload}
-        case ProfileActionTypes.ADD_HIGHER_AGE_EDGE:
-            return {...state, higherAge: action.payload}
+            return {...state, interestedGender: action.payload, _stage: ProfileActionTypes.ADD_AGE_RANGE}
+        case ProfileActionTypes.ADD_AGE_RANGE:
+            return {...state, lowerAge: action.payload.lowerEdge, higherAge: action.payload.higherEdge, _stage: ProfileActionTypes.FINISH}
         default:
             return state
     }

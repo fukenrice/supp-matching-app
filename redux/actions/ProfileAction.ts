@@ -77,15 +77,11 @@ export interface AddInterestedGenderAction {
     payload: Genders
 }
 
-export interface AddLowerAgeAction {
-    type: ProfileActionTypes.ADD_LOWER_AGE_EDGE,
-    payload: number
+export interface AddAgeRangeAction {
+    type: ProfileActionTypes.ADD_AGE_RANGE,
+    payload: {lowerEdge: number, higherEdge: number}
 }
 
-export interface AddHigherAgeAction {
-    type: ProfileActionTypes.ADD_HIGHER_AGE_EDGE,
-    payload: number
-}
 
 
 export type ProfileAction =
@@ -105,5 +101,4 @@ export type ProfileAction =
     | AddPhotoAction
     | ConfirmPhotosAction
     | AddInterestedGenderAction
-    | AddLowerAgeAction
-    | AddHigherAgeAction
+    | AddAgeRangeAction
