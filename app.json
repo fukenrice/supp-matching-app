@@ -26,7 +26,11 @@
       },
       "package": "com.fukenrice.supp"
     },
-    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"],
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "expo-image-picker"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     },

@@ -12,9 +12,9 @@ import NameScreen from "./NameScreen";
 import BirthdayScreen from "./BirthdayScreen";
 import GenderScreen from "./GenderScreen";
 import InfoScreen from "./InfoScreen";
-import BulletScreen from "./ProblemsScreen";
 import ProblemsScreen from "./ProblemsScreen";
 import HobbiesScreen from "./HobbiesScreen";
+import PhotosScreen from "./PhotosScreen";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
@@ -62,6 +62,7 @@ export default function LoginRoot() {
         {state._stage === ProfileActionTypes.FILL_INFO && <InfoScreen />}
         {state._stage === ProfileActionTypes.ADD_PROBLEMS && <ProblemsScreen />}
         {state._stage === ProfileActionTypes.ADD_HOBBIES && <HobbiesScreen />}
+        {state._stage === ProfileActionTypes.ADD_PHOTO && <PhotosScreen />}
 
     </View>
 }

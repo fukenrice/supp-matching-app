@@ -77,7 +77,13 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
         case ProfileActionTypes.ADD_DESC:
             return {...state, desc: action.payload, _stage: ProfileActionTypes.ADD_PHOTO}
         case ProfileActionTypes.ADD_PHOTO:
-            return {...state, photos: [...state.photos, action.payload]}
+            const photos = [...state.photos]
+            if (action.payload.index !== undefined) {
+                photos[action.payload.index] = action.payload.uri
+            } else {
+                photos.push(action.payload.uri)
+            }
+            return {...state, photos: photos}
         case ProfileActionTypes.CONFIRM_PHOTOS:
             return {...state, _stage: ProfileActionTypes.ADD_INTERESTED_GENDER}
         case ProfileActionTypes.ADD_INTERESTED_GENDER:

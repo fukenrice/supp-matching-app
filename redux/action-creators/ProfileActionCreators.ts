@@ -5,9 +5,11 @@ import {
     AddHobbiesAction,
     AddNameAction,
     AddPhoneAction,
+    AddPhotoAction,
     AddProblemsAction,
     ConfirmHobbiesAction,
     ConfirmPhoneAction,
+    ConfirmPhotosAction,
     ConfirmProblemsAction,
     GoToPreviousAction,
     InitAction
@@ -62,4 +64,12 @@ export const confirmHobbies = (hobbies: HobbyModel[]): ConfirmHobbiesAction => {
 
 export const addDesc = (desc: string): AddDescAction => {
     return {type: ProfileActionTypes.ADD_DESC, payload: desc}
+}
+
+export const addPhoto = (uri: string, index?: number): AddPhotoAction => {
+    return {type: ProfileActionTypes.ADD_PHOTO, payload: {uri: uri, index: index}}
+}
+
+export const confirmPhotos = (): ConfirmPhotosAction => {
+    return {type: ProfileActionTypes.CONFIRM_PHOTOS}
 }

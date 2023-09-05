@@ -64,7 +64,7 @@ export interface AddDescAction {
 
 export interface AddPhotoAction {
     type: ProfileActionTypes.ADD_PHOTO,
-    payload: string
+    payload: {uri: string, index?: number}
 }
 
 export interface ConfirmPhotosAction {
