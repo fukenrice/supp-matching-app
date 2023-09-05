@@ -1,6 +1,7 @@
 import {ProfileActionTypes} from "../action-types";
-import ProblemModel from "../../models/ProblemModel";
-import HobbyModel from "../../models/HobbyModel";
+import ProblemModel from "../../data/models/ProblemModel";
+import HobbyModel from "../../data/models/HobbyModel";
+import {Genders} from "../../data/models/Genders";
 
 export interface InitAction {
     type: ProfileActionTypes.INIT,
@@ -73,7 +74,7 @@ export interface ConfirmPhotosAction {
 
 export interface AddInterestedGenderAction {
     type: ProfileActionTypes.ADD_INTERESTED_GENDER,
-    payload: string
+    payload: Genders
 }
 
 export interface AddLowerAgeAction {

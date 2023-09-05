@@ -1,4 +1,13 @@
-import {FlatList, StyleSheet, Text, View, Image, TouchableOpacity} from "react-native";
+import {
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    Touchable,
+    TouchableWithoutFeedback, TouchableHighlight
+} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
 import React, {useEffect, useState} from "react";
@@ -47,7 +56,7 @@ export default function PhotosScreen() {
                       ItemSeparatorComponent={() => <View style={{height: 20}}/>}
                       renderItem={({item, index}) => {
                           return item === "" ?
-                              <View
+                              <TouchableOpacity
                                   style={[{
                                       ...styles.imageContainer,
                                       borderWidth: 1,
@@ -57,14 +66,12 @@ export default function PhotosScreen() {
                                       alignItems: "center",
                                       justifyContent: "center"
                                   }, index % 2 === 0 ? {marginRight: 10} : {marginLeft: 10}]}
+                                  onPress={() => pickImage()}
                               >
                                   <SvgXml
                                       xml={image_placeholder_conent}
-                                      onPress={async () => {
-                                          pickImage()
-                                      }}
                                   />
-                              </View>
+                              </TouchableOpacity>
                               :
                               <TouchableOpacity
                                   style={[styles.imageContainer, index % 2 === 0 ? {marginRight: 10} : {marginLeft: 10}]}

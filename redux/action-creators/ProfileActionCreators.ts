@@ -3,6 +3,7 @@ import {
     AddDescAction,
     AddGenderAction,
     AddHobbiesAction,
+    AddInterestedGenderAction,
     AddNameAction,
     AddPhoneAction,
     AddPhotoAction,
@@ -15,8 +16,9 @@ import {
     InitAction
 } from "../actions/ProfileAction";
 import {ProfileActionTypes} from "../action-types";
-import ProblemModel from "../../models/ProblemModel";
-import HobbyModel from "../../models/HobbyModel";
+import ProblemModel from "../../data/models/ProblemModel";
+import HobbyModel from "../../data/models/HobbyModel";
+import {Genders} from "../../data/models/Genders";
 
 export const init = (): InitAction => {
     return {type: ProfileActionTypes.INIT}
@@ -72,4 +74,8 @@ export const addPhoto = (uri: string, index?: number): AddPhotoAction => {
 
 export const confirmPhotos = (): ConfirmPhotosAction => {
     return {type: ProfileActionTypes.CONFIRM_PHOTOS}
+}
+
+export const addInterestedGender = (gender: Genders): AddInterestedGenderAction => {
+    return {type: ProfileActionTypes.ADD_INTERESTED_GENDER, payload: gender}
 }
