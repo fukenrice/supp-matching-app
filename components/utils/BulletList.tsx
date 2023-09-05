@@ -1,5 +1,5 @@
-import ProblemModel from "../../models/ProblemModel";
-import HobbyModel from "../../models/HobbyModel";
+import ProblemModel from "../../data/models/ProblemModel";
+import HobbyModel from "../../data/models/HobbyModel";
 import { StyleSheet, Text, View} from "react-native";
 
 export default function BulletList({data, onPress}: {

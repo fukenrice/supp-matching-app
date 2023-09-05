@@ -5,7 +5,7 @@ import React, {useEffect, useRef, useState} from "react";
 import ButtonInactive from "../buttons/ButtonInactive";
 import {SearchBar} from "@rneui/themed";
 import {Ionicons} from '@expo/vector-icons';
-import ProblemModel from "../../models/ProblemModel";
+import ProblemModel from "../../data/models/ProblemModel";
 import {getProblems} from "../../data/repo/repo";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";

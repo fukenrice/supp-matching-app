@@ -9,7 +9,7 @@ import {getHobbies} from "../../data/repo/repo";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {confirmHobbies} from "../../redux/action-creators/ProfileActionCreators";
-import HobbyModel from "../../models/HobbyModel";
+import HobbyModel from "../../data/models/HobbyModel";
 
 const reactNativeTagSelect = require("react-native-tag-select")
 const TagSelect = reactNativeTagSelect.TagSelect

@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
-import ProblemModel from "../../models/ProblemModel";
-import HobbyModel from "../../models/HobbyModel";
+import ProblemModel from "../models/ProblemModel";
+import HobbyModel from "../models/HobbyModel";
 import storage from '@react-native-firebase/storage';
 import auth from "@react-native-firebase/auth";
 

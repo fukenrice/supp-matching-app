@@ -4,9 +4,9 @@ import ButtonActive from "../buttons/ButtonActive";
 import ButtonInactive from "../buttons/ButtonInactive";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
-import ProblemModel from "../../models/ProblemModel";
+import ProblemModel from "../../data/models/ProblemModel";
 import {addDesc, addHobbies, addProblems} from "../../redux/action-creators/ProfileActionCreators";
-import HobbyModel from "../../models/HobbyModel";
+import HobbyModel from "../../data/models/HobbyModel";
 import BulletList from "../utils/BulletList";
 import React, {useState} from "react";
 
