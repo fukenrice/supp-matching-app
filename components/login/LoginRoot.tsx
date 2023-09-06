@@ -17,6 +17,7 @@ import HobbiesScreen from "./HobbiesScreen";
 import PhotosScreen from "./PhotosScreen";
 import InterestedGenderScreen from "./InterestedGenderScreen";
 import AgeRangeScreen from "./AgeRangeScreen";
+import ConfirmationScreen from "./ConfirmationScreen";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
@@ -67,6 +68,7 @@ export default function LoginRoot() {
         {state._stage === ProfileActionTypes.ADD_PHOTO && <PhotosScreen />}
         {state._stage === ProfileActionTypes.ADD_INTERESTED_GENDER && <InterestedGenderScreen />}
         {state._stage === ProfileActionTypes.ADD_AGE_RANGE && <AgeRangeScreen />}
+        {state._stage === ProfileActionTypes.FINISH && <ConfirmationScreen />}
 
     </View>
 }
@@ -80,39 +82,3 @@ const styles = StyleSheet.create({
     },
 });
 
-
-
-
-// import {StyleSheet, Text, View} from "react-native";
-// import {loginHintsText} from "../../styles";
-// import ButtonActive from "../buttons/ButtonActive";
-// import React from "react";
-// import ButtonInactive from "../buttons/ButtonInactive";
-//
-// export default function NameScreen() {
-//
-//     return <View style={styles.container}>
-//         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
-//             <Text style={loginHintsText}></Text>
-//
-//         </View>
-//
-//         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
-//             {true ?
-//                 <ButtonActive text={"Далее"} onClick={() => {
-//                 }}/>
-//                 :
-//                 <ButtonInactive text={"Далее"}/>
-//             }
-//         </View>
-//     </View>
-// }
-//
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignItems: 'center',
-//         alignSelf: 'stretch',
-//         justifyContent: 'center',
-//     },
-// })

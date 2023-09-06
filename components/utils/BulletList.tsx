@@ -1,15 +1,17 @@
 import ProblemModel from "../../data/models/ProblemModel";
 import HobbyModel from "../../data/models/HobbyModel";
-import { StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, TextStyle, View, ViewStyle} from "react-native";
 
-export default function BulletList({data, onPress}: {
+export default function BulletList({data, onPress, containerStyle, textStyle}: {
     data: (ProblemModel | HobbyModel)[],
-    onPress: () => void
+    onPress?: () => void,
+    containerStyle?: ViewStyle,
+    textStyle?: TextStyle
 }) {
 
     return <View style={styles.container}>
-        {data.map(v => <View style={styles.bulletContainer}><Text style={{color: "white"}}
-                                                                  onPress={() => onPress()}>{"problemName" in v ? v.problemName : v.hobbyName}</Text></View>)}
+        {data.map((v, index) => <View key={v.id} style={[styles.bulletContainer, containerStyle]}><Text style={[{color: "white"}, textStyle]}
+                                                                  onPress={onPress ? () => onPress() : () => {}}>{"problemName" in v ? v.problemName : v.hobbyName}</Text></View>)}
     </View>
 
 }

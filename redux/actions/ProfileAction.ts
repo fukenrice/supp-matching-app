@@ -82,6 +82,10 @@ export interface AddAgeRangeAction {
     payload: {lowerEdge: number, higherEdge: number}
 }
 
+export interface FinishAction {
+    type: ProfileActionTypes.FINISH
+}
+
 
 
 export type ProfileAction =
@@ -102,3 +106,4 @@ export type ProfileAction =
     | ConfirmPhotosAction
     | AddInterestedGenderAction
     | AddAgeRangeAction
+    | FinishAction
