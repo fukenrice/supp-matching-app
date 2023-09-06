@@ -13,6 +13,7 @@ import {
     ConfirmPhoneAction,
     ConfirmPhotosAction,
     ConfirmProblemsAction,
+    FinishAction,
     GoToPreviousAction,
     InitAction
 } from "../actions/ProfileAction";
@@ -83,4 +84,8 @@ export const addInterestedGender = (gender: Genders): AddInterestedGenderAction 
 
 export const addAgeRange = (min: number, max: number): AddAgeRangeAction => {
     return {type: ProfileActionTypes.ADD_AGE_RANGE, payload: {lowerEdge: min, higherEdge: max}}
+}
+
+export const finishCreating = (): FinishAction => {
+    return {type: ProfileActionTypes.FINISH}
 }

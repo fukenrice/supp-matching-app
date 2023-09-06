@@ -4,21 +4,9 @@ import HobbyModel from "../../data/models/HobbyModel";
 import {ProfileActionTypes} from "../action-types";
 import {Reducer} from "redux";
 import {EnumX} from "../../utils/IterableEnum";
+import {ProfileData} from "../../data/models/ProfileData";
 
-interface ProfileData {
-    _stage: ProfileActionTypes
-    name: string,
-    phone: string,
-    birthday: Date | null,
-    gender: string,
-    problems: ProblemModel[],
-    hobbies: HobbyModel[],
-    desc: string,
-    photos: string[],
-    interestedGender: string,
-    lowerAge: number,
-    higherAge: number,
-}
+
 
 const INITIAL_STATE: ProfileData = {
     _stage: ProfileActionTypes.INIT,
@@ -45,6 +33,12 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
                 state._stage === ProfileActionTypes.ADD_HOBBIES ||
                 state._stage === ProfileActionTypes.ADD_PHOTO) {
                 return {...state, _stage: ProfileActionTypes.FILL_INFO}
+            }
+            if (state._stage === ProfileActionTypes.ADD_INTERESTED_GENDER) {
+                return {...state, _stage: ProfileActionTypes.ADD_PHOTO}
+            }
+            if (state._stage === ProfileActionTypes.ADD_NAME) {
+                return {...state}
             }
             const stage = EnumX.of(ProfileActionTypes).prev(state._stage)
             if (stage === undefined) {
@@ -89,6 +83,8 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
             return {...state, interestedGender: action.payload, _stage: ProfileActionTypes.ADD_AGE_RANGE}
         case ProfileActionTypes.ADD_AGE_RANGE:
             return {...state, lowerAge: action.payload.lowerEdge, higherAge: action.payload.higherEdge, _stage: ProfileActionTypes.FINISH}
+        case ProfileActionTypes.FINISH:
+            return {...state}
         default:
             return state
     }
