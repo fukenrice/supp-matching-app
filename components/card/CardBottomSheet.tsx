@@ -7,7 +7,7 @@ import BulletList from "../utils/BulletList";
 
 export default function CardBottomSheet({name, desc, birthday, hobbies, problems, style}: {
     name: string,
-    birthday: Date,
+    birthday: number,
     problems: ProblemModel[],
     hobbies: HobbyModel[],
     desc: string,
@@ -17,15 +17,15 @@ export default function CardBottomSheet({name, desc, birthday, hobbies, problems
 
         <View style={styles.headerContainer}>
             <Text style={{fontWeight: "700", fontSize: 25, color: "#424242"}}>{name}, </Text>
-            <Text style={{fontWeight: "600", fontSize: 20, color: "#424242"}}>{calculateAge(birthday)}</Text>
+            <Text style={{fontWeight: "600", fontSize: 20, color: "#424242"}}>{birthday}</Text>
         </View>
         <View style={{marginBottom: 10}}>
-            <BulletList data={problems} containerStyle={styles.bulletStyle} textStyle={{color: "black"}}/>
+            <BulletList data={problems} bulletContainerStyle={styles.bulletStyle} textStyle={{color: "black"}}/>
         </View>
         <Text style={{fontWeight: "400", fontSize: 20, color: "#989898", marginBottom: 10}}>О себе</Text>
         <Text style={{fontWeight: "400", fontSize: 15, color: "#424242", marginBottom: 10}}>{desc}</Text>
         <Text style={{fontWeight: "400", fontSize: 20, color: "#989898", marginBottom: 10}}>Увлечения</Text>
-        <BulletList data={hobbies} containerStyle={styles.bulletStyle} textStyle={{color: "black"}}/>
+        <BulletList data={hobbies} bulletContainerStyle={styles.bulletStyle} textStyle={{color: "black"}}/>
     </ScrollView>
 }
 

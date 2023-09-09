@@ -13,14 +13,16 @@ import BulletList from "../utils/BulletList";
 import BottomSheet from "@gorhom/bottom-sheet";
 import CardBottomSheet from "./CardBottomSheet";
 
-export default function UserCard({name, desc, birthday, hobbies, photos, problems, style}: {
+export default function UserCard({name, desc, birthday, hobbies, photos, problems, style, checked, defaultMode}: {
     name: string,
-    birthday: Date,
+    birthday: number,
     problems: ProblemModel[],
     hobbies: HobbyModel[],
     desc: string,
     photos: string[],
-    style?: ViewStyle
+    style?: ViewStyle,
+    defaultMode?: "dark" | "light"
+    checked?: ProblemModel[]
 }) {
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,7 +30,6 @@ export default function UserCard({name, desc, birthday, hobbies, photos, problem
 
     const bottomSheetRef = useRef<BottomSheet>(null);
 
-    // variables
     const snapPoints = useMemo(() => ['70%'], []);
 
     const onNextImage = () => {
@@ -85,13 +86,14 @@ export default function UserCard({name, desc, birthday, hobbies, photos, problem
                 }}>
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
                         <Text style={{color: "white", fontWeight: "700", fontSize: 25}}>{name}, </Text>
-                        <Text style={{color: "white", fontWeight: "600", fontSize: 20}}>{calculateAge(birthday)}</Text>
+                        <Text style={{color: "white", fontWeight: "600", fontSize: 20}}>{birthday}</Text>
                     </View>
                     <SvgXml xml={infoIcon} onPress={() => {
+                        console.log("tap info")
                         bottomSheetRef.current?.expand()
                     }}/>
                 </View>
-                <BulletList data={problems} containerStyle={styles.bulletStyle} textStyle={{color: "black"}}/>
+                <BulletList data={problems} defaultMode={defaultMode} checked={checked}/>
             </View>
 
             <BottomSheet
