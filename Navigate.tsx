@@ -54,7 +54,16 @@ type RootStackParamList = {
     Main: undefined
 }
 
-const ChatStack = createStackNavigator()
+type ChatParamList = {
+    ChatList: undefined,
+    PrivateChat: {
+        companionUid: string
+    }
+}
+
+const ChatStack = createStackNavigator<ChatParamList>()
+
+export type PrivateChatProps = StackScreenProps<ChatParamList, 'PrivateChat'>;
 
 const ChatStackNavigator = () => {
     return <ChatStack.Navigator>

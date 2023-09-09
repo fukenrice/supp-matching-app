@@ -166,3 +166,22 @@ export const addChat = async (likerUid: string, likerName: string, likerPhoto: s
     }
 }
 
+export const getChats = async () => {
+    try {
+        const chatsCollection = await firestore().collection('chats')
+            .where('user_A_id', '==', auth().currentUser?.uid)
+            .get();
+
+        if (!chatsCollection.empty) {
+            return chatsCollection.docs.map(doc => {
+                return {
+                    uid: doc.data().user_B_id as string,
+                    name: doc.data().user_B_name as string,
+                    photo: doc.data().user_B_photo as string
+                }
+            })
+        }
+    } catch (e) {
+        console.log(e)
+    }
+}
