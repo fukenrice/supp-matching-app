@@ -18,11 +18,17 @@ import PhotosScreen from "./PhotosScreen";
 import InterestedGenderScreen from "./InterestedGenderScreen";
 import AgeRangeScreen from "./AgeRangeScreen";
 import ConfirmationScreen from "./ConfirmationScreen";
+import {useNavigation} from "@react-navigation/native";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
     const state = useSelector((state: RootState) => state.userProfile)
+    const nav = useNavigation<any>()
     useEffect(() => {
+        if (auth().currentUser) {
+            nav.replace("Main")
+        }
+
         const backAction = () => {
             dispatch(goToPrevious())
             return true

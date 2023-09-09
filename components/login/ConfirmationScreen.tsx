@@ -7,15 +7,18 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-swiper";
 import {uploadUser} from "../../data/repo/repo";
+import {useNavigation} from "@react-navigation/native";
+import {calculateAge} from "../../utils/calculateAge";
 
 export default function ConfirmationScreen() {
 
     const state = useSelector((state: RootState) => state.userProfile)
+    const nav = useNavigation<any>()
 
     return <View style={styles.container}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}}>
             <Text style={loginHintsText}></Text>
-            <UserCard name={state.name} desc={state.desc} birthday={state.birthday!} hobbies={state.hobbies}
+            <UserCard name={state.name} desc={state.desc} birthday={calculateAge(state.birthday!)} hobbies={state.hobbies}
                       photos={state.photos} problems={state.problems}
                       style={{width: "100%"}}
             />
@@ -25,6 +28,7 @@ export default function ConfirmationScreen() {
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             <ButtonActive text={"Сохранить и начать поиск"} onClick={async () => {
                 await uploadUser(state)
+                nav.replace("Main")
                 console.log("profile added")
             }}/>
         </View>
