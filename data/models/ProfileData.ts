@@ -15,4 +15,6 @@ export interface ProfileData {
     interestedGender: string,
     lowerAge: number,
     higherAge: number,
+    uid?: string,
+    liked?: string[]
 }

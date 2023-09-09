@@ -1,5 +1,5 @@
 export enum Genders {
-    MALE = "MALE",
-    FEMALE = "FEMALE",
+    MALE = "male",
+    FEMALE = "female",
     DOES_NOT_MATTER = "DOES_NOT_MATTER"
 }
