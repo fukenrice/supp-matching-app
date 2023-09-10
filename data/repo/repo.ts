@@ -6,6 +6,8 @@ import auth from "@react-native-firebase/auth";
 import {ProfileData} from "../models/ProfileData";
 import {Genders} from "../models/Genders";
 import moment from "moment";
+import config from "../../config";
+import axios from "axios";
 
 export const getProblems = async () => {
     try {
@@ -58,6 +60,19 @@ export const uploadUser = async (data: ProfileData) => {
     }
 }
 
+export const createChatUser = async (name: string) => {
+    try {
+        await axios.post(`${config.BASE_URL}/create-user`, {
+            uid: auth().currentUser?.uid,
+            firebase_doc_uid: auth().currentUser?.uid,
+            name,
+        });
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
 export const getUserProfile = async () => {
     try {
         const doc = await firestore().doc(`Profiles/${auth().currentUser?.uid}`).get()
@@ -71,7 +86,7 @@ export const getUserProfile = async () => {
         }
     } catch
         (e) {
-        console.log(e)
+        console.log("getUserProfile: " + e)
     }
 }
 
@@ -79,11 +94,11 @@ export const getProfiles = async () => {
     try {
         const profile = await getUserProfile()
         if (profile) {
-            const minDate = moment().subtract(profile.lowerAge, 'years').toDate()
+            const minDate = moment().add(1, "day").subtract(profile.lowerAge, 'years').toDate()
             const maxDate = moment().subtract(profile.higherAge, 'years').toDate()
             const doc = await firestore().collection("Profiles")
                 .where(
-                    firestore.Filter("uid", '!=', auth().currentUser?.uid),
+                    "uid", '!=', auth().currentUser?.uid
                     // firestore.Filter("birthday", "<=", minDate),
                     // firestore.Filter("birthday", ">=", maxDate),
                     // firestore.Filter("problems", "array-contains-any", profile.problems),
@@ -110,12 +125,13 @@ export const getProfiles = async () => {
                     // firestore.Filter.or(
                     //     firestore.Filter("interestedGender", "==", profile.gender),
                     //     firestore.Filter("interestedGender", "==", Genders.DOES_NOT_MATTER)
+
                     filtered = data.filter(v =>
-                        v.birthday! <= minDate &&
-                        v.birthday! >= maxDate &&
-                        // v.problems.some(r=> profile.problems.includes(r)) &&
-                        (v.interestedGender == profile.gender || v.interestedGender == Genders.DOES_NOT_MATTER) &&
-                        !profile.liked?.includes(v.uid!)
+                        v.birthday! <= minDate
+                        && v.birthday! >= maxDate
+                        // && v.problems.some(r=> profile.problems.includes(r))
+                        && (v.interestedGender == profile.gender || v.interestedGender == Genders.DOES_NOT_MATTER)
+                        && !profile.liked?.includes(v.uid!)
                     )
                 } else {
                     filtered = data.filter(v =>
@@ -131,7 +147,7 @@ export const getProfiles = async () => {
             }
         }
     } catch (e) {
-        console.log(e)
+        console.log("getProfiles: " + e)
     }
 }
 

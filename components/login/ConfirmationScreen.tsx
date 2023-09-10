@@ -6,7 +6,7 @@ import UserCard from "../card/UserCard";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-swiper";
-import {uploadUser} from "../../data/repo/repo";
+import {createChatUser, uploadUser} from "../../data/repo/repo";
 import {useNavigation} from "@react-navigation/native";
 import {calculateAge} from "../../utils/calculateAge";
 
@@ -27,6 +27,7 @@ export default function ConfirmationScreen() {
 
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             <ButtonActive text={"Сохранить и начать поиск"} onClick={async () => {
+                await createChatUser(state.name)
                 await uploadUser(state)
                 nav.replace("Main")
                 console.log("profile added")

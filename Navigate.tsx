@@ -1,8 +1,8 @@
-import React from "react";
-import { createStackNavigator, StackScreenProps } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import React, {useRef} from "react";
+import {createStackNavigator, StackNavigationProp, StackScreenProps} from "@react-navigation/stack";
+import {getFocusedRouteNameFromRoute, NavigationContainer, RouteProp} from "@react-navigation/native";
 import LoginRoot from "./components/login/LoginRoot";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {BottomTabNavigationProp, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import MatchingScreen from "./components/main/MatchingScreen";
 import ChatListScreen from "./components/chat/ChatListScreen";
 import ChatScreen from "./components/chat/ChatScreen";
@@ -26,11 +26,13 @@ const mainOptions = {
 
 const chatOptions = {
     ...commonOptions,
-    tabBarIcon: ({ focused }: {focused: boolean}) => {
+    tabBarIcon: ({focused}: {
+        focused: boolean
+    }) => {
         const color = focused ? "black" : "grey"
         return <SvgXml xml={chatIcon} stroke={color} fill={color}/>;
     },
-    tabBarLabel: "Сообщения"
+    tabBarLabel: "Сообщения",
 }
 
 const privateChatOptions = {
@@ -38,15 +40,18 @@ const privateChatOptions = {
 }
 
 
-
 const matchesOptions = {
     ...commonOptions,
-    tabBarIcon: ({ focused }: {focused: boolean}) => {
+    tabBarIcon: ({focused}: {
+        focused: boolean
+    }) => {
         const color = focused ? "black" : "grey"
         return <SvgXml xml={mainTabIcon} stroke={color}/>;
     },
-    tabBarLabel: "Подборка"
-
+    tabBarLabel: "Подборка",
+    tabBarStyle: {
+        // display: 'flex'
+    }
 }
 
 type RootStackParamList = {
@@ -57,13 +62,16 @@ type RootStackParamList = {
 type ChatParamList = {
     ChatList: undefined,
     PrivateChat: {
-        companionUid: string
+        companionUid: string,
+        companionName: string,
+        companionPhoto: string
     }
 }
 
 const ChatStack = createStackNavigator<ChatParamList>()
 
 export type PrivateChatProps = StackScreenProps<ChatParamList, 'PrivateChat'>;
+export type ChatListProps = StackScreenProps<ChatParamList, 'ChatList'>;
 
 const ChatStackNavigator = () => {
     return <ChatStack.Navigator>
@@ -74,7 +82,9 @@ const ChatStackNavigator = () => {
 
 const Tab = createBottomTabNavigator()
 
+
 const TabsNavigator = () => {
+
     return <Tab.Navigator screenOptions={{
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "grey",
@@ -84,8 +94,9 @@ const TabsNavigator = () => {
             borderTopRightRadius: 15
         }
     }}>
-        <Tab.Screen name={"Matches"} component={MatchingScreen} options={{...matchesOptions}}/>
-        <Tab.Screen name={"Chat"} component={ChatStackNavigator} options={chatOptions}/>
+        <Tab.Screen name={"Matches"} component={MatchingScreen} options={matchesOptions}/>
+        <Tab.Screen name={"Chat"} component={ChatStackNavigator}
+                    options={chatOptions}/>
 
     </Tab.Navigator>
 }

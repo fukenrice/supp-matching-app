@@ -28,6 +28,7 @@ export default function LoginRoot() {
         if (auth().currentUser) {
             nav.replace("Main")
         }
+        // auth().signOut()
 
         const backAction = () => {
             dispatch(goToPrevious())

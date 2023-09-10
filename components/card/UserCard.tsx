@@ -89,7 +89,6 @@ export default function UserCard({name, desc, birthday, hobbies, photos, problem
                         <Text style={{color: "white", fontWeight: "600", fontSize: 20}}>{birthday}</Text>
                     </View>
                     <SvgXml xml={infoIcon} onPress={() => {
-                        console.log("tap info")
                         bottomSheetRef.current?.expand()
                     }}/>
                 </View>

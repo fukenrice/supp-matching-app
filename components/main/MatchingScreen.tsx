@@ -9,10 +9,16 @@ import {addChat, addLiked, getProfiles, getUserProfile, uploadUser} from "../../
 import {ProfileData} from "../../data/models/ProfileData";
 import {calculateAge} from "../../utils/calculateAge";
 import BulletList from "../utils/BulletList";
+import {CometChat} from "@cometchat-pro/react-native-chat";
+import auth from "@react-native-firebase/auth";
+import Config from "react-native-config";
+import {useNavigation} from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default function MatchingScreen() {
 
+    var authKey = Config.COMETCHAT_AUTH_KEY;
     const state = useSelector((state: RootState) => state.userProfile)
     const [profiles, setProfiles] = useState<ProfileData[]>([])
     const ref = useRef<Swiper<ProfileData>>(null)
@@ -21,9 +27,22 @@ export default function MatchingScreen() {
     const [cardLength, setCardLength] = useState<number>(0);
     const [showBack, setShowBack] = useState(true)
     const [userProfile, setUserProfile] = useState<ProfileData>()
+    const nav = useNavigation<any>()
 
     useEffect(() => {
+        console.log("auth key: " + authKey)
         fetchData()
+        CometChat.login(auth().currentUser!.uid.toLowerCase(), authKey).then(
+            user => {
+                console.log('Login Successful:', {user});
+            },
+            error => {
+                alert('Login Failed. Please try again.');
+                auth().signOut();
+                nav.replace("Login")
+                console.log('Login failed with exception:', {error});
+            },
+        )
     }, []);
 
     const likeProfile = async (profile: ProfileData) => {
@@ -76,9 +95,17 @@ export default function MatchingScreen() {
 
     return <View style={styles.container}>
         <View style={{alignItems: "flex-start"}}>
-            <Text style={{...loginHintsText, marginBottom: 10}}>
-                Мэтчи по тегам
-            </Text>
+            <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%"}}>
+                <Text style={{...loginHintsText, marginBottom: 10}}>
+                    Мэтчи по тегам
+                </Text>
+                <AntDesign name="logout" size={24} color="black" onPress={async () => {
+                    await auth().signOut()
+                    nav.replace("Login")
+                }}/>
+            </View>
+
+
             {
                 userProfile &&
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} snapToEnd={false}

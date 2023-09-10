@@ -6,12 +6,13 @@ import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {getChats} from "../../data/repo/repo";
 import {loginHintsText} from "../../styles";
 import {Ionicons} from "@expo/vector-icons";
+import {ChatListProps, PrivateChatProps} from "../../Navigate";
+import {StackNavigationProp} from "@react-navigation/stack";
 
-export default function ChatListScreen() {
+export default function ChatListScreen({navigation: navigation, }: ChatListProps) {
     const isFocused = useIsFocused();
     const [chats, setChats] = useState<{ uid: string, name: string, photo: string }[]>([])
     const [displayedChats, setDisplayedChats] = useState<{ uid: string, name: string, photo: string }[]>([])
-    const [search, setSearch] = useState("")
     const nav = useNavigation<any>()
 
 
@@ -22,7 +23,11 @@ export default function ChatListScreen() {
     }
 
     useEffect(() => {
-        fetchChats()
+        if (isFocused) {
+            const parent = navigation.getParent()
+            parent?.setOptions({tabBarStyle: {display: "flex"}})
+            fetchChats()
+        }
     }, [isFocused]);
 
 
@@ -39,11 +44,15 @@ export default function ChatListScreen() {
             }}/>
         </View>
         <FlatList data={displayedChats} renderItem={(item) => {
-            return <TouchableOpacity style={styles.chatContainer} onPress={() => nav.navigate("PrivateChat", {companionUid: item.item.uid})}>
-                <Image source={{uri: item.item.photo}} style={{borderRadius: 100, aspectRatio: 1, width: 60}} />
+            return <TouchableOpacity style={styles.chatContainer} onPress={() => nav.navigate("PrivateChat", {
+                companionUid: item.item.uid,
+                companionName: item.item.name,
+                companionPhoto: item.item.photo
+            })}>
+                <Image source={{uri: item.item.photo}} style={{borderRadius: 100, aspectRatio: 1, width: 60}}/>
                 <View style={{marginLeft: 20}}>
                     <Text style={{fontWeight: "bold", fontSize: 20}}>{item.item.name}</Text>
-                    <Text style={{color: "grey"}}>prev message placeholder..</Text>
+                    <Text style={{color: "grey"}}>last message placeholder..</Text>
                 </View>
             </TouchableOpacity>
         }}/>
