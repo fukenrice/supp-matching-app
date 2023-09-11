@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "229319535679",
+    "project_id": "supp-11a69",
+    "storage_bucket": "supp-11a69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229319535679:android:71f4b391b2a9d91825dc8a",
+        "android_client_info": {
+          "package_name": "com.fukenrice.supp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "229319535679-8b6rk9uqd6q8vm965hg63mhm8l877lv9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fukenrice.supp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "229319535679-5isjaue7atjqjrrr7e9uil9fni59rnf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZC_iHHxxWbe_CTWMmSKdx8WcgBexoLoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "229319535679-5isjaue7atjqjrrr7e9uil9fni59rnf8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "229319535679-6cv3agrg6a584f4vq1drkbrt9ngm2anc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fukenrice.supp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
