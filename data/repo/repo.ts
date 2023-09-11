@@ -58,7 +58,6 @@ export const uploadUser = async (data: ProfileData, photoUrls: string[]) => {
 }
 
 export const createChatUser = async (name: string, photo: string) => {
-    const authKey = Config.COMETCHAT_AUTH_KEY
     const url = `https://${Config.COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users`
     const body = {
         uid: auth().currentUser?.uid,
@@ -88,7 +87,29 @@ export const createChatUser = async (name: string, photo: string) => {
     } catch (e) {
         console.log(e)
     }
+}
 
+export const profileExists = async (uid: string) => {
+    const url = `https://${Config.COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users/${uid}`
+    const headers = {
+        headers: {
+            apiKey:
+            Config.COMETCHAT_API_KEY,
+        }
+    }
+    try {
+        const [response, doc] = await Promise.all([
+            axios.get(url, headers),
+            firestore().doc(`Profiles/${auth().currentUser?.uid}`).get()
+        ])
+        if (!doc.exists || response.status.toString()[0] !== "2") {
+            return false
+        }
+        return true
+    } catch (e) {
+        console.log(e)
+        return false
+    }
 }
 
 export const getUserProfile = async () => {

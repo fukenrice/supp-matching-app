@@ -8,6 +8,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import auth, {FirebaseAuthTypes} from "@react-native-firebase/auth";
 import {confirmPhone} from "../../redux/action-creators/ProfileActionCreators";
 import {useDispatch} from "react-redux";
+import {profileExists} from "../../data/repo/repo";
+import {useNavigation} from "@react-navigation/native";
 
 export default function PhoneConfirmationScreen({confirmCode}: {confirmCode: (val: string) => void }) {
 
@@ -19,15 +21,21 @@ export default function PhoneConfirmationScreen({confirmCode}: {confirmCode: (va
     });
     const [spinner, setSpinner] = useState(false)
     const dispatch = useDispatch()
+    const nav = useNavigation<any>()
 
     useEffect(() => {
         return auth().onAuthStateChanged(onAuthStateChanged)
     }, []);
 
-    const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+    const onAuthStateChanged = async (user: FirebaseAuthTypes.User | null) => {
         if (user) {
-            console.log(user)
-            dispatch(confirmPhone(""))
+            const inDb = await profileExists(user.uid)
+            if (inDb) {
+                nav.replace("Main")
+            } else {
+                dispatch(confirmPhone(""))
+            }
+
         }
     }
 
