@@ -6,7 +6,7 @@ import UserCard from "../card/UserCard";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-swiper";
-import {createChatUser, uploadUser} from "../../data/repo/repo";
+import {createChatUser, uploadPhotos, uploadUser} from "../../data/repo/repo";
 import {useNavigation} from "@react-navigation/native";
 import {calculateAge} from "../../utils/calculateAge";
 
@@ -14,6 +14,14 @@ export default function ConfirmationScreen() {
 
     const state = useSelector((state: RootState) => state.userProfile)
     const nav = useNavigation<any>()
+
+    const createUsers = async () => {
+        const photos = await uploadPhotos(state.photos)
+        if (photos) {
+            await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0])])
+        }
+    }
+
 
     return <View style={styles.container}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}}>
@@ -27,8 +35,7 @@ export default function ConfirmationScreen() {
 
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             <ButtonActive text={"Сохранить и начать поиск"} onClick={async () => {
-                await createChatUser(state.name)
-                await uploadUser(state)
+                await createUsers()
                 nav.replace("Main")
                 console.log("profile added")
             }}/>
@@ -43,5 +50,4 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center',
     },
-
 })

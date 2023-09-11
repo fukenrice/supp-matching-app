@@ -8,6 +8,7 @@ import {Genders} from "../models/Genders";
 import moment from "moment";
 import config from "../../config";
 import axios from "axios";
+import Config from "react-native-config";
 
 export const getProblems = async () => {
     try {
@@ -37,8 +38,6 @@ export const uploadPhotos = async (photos: string[]) => {
     try {
         const names = photos.map(v => v.split('/').at(-1)) as string[]
         const ref = names.map(v => storage().ref(`photos/${auth().currentUser?.uid}/${v}`))
-        storage().ref('');
-
         await Promise.all(ref.map((v, index) => v.putFile(photos[index])))
         return await Promise.all(ref.map(v => v.getDownloadURL()))
     } catch (e) {
@@ -46,27 +45,46 @@ export const uploadPhotos = async (photos: string[]) => {
     }
 }
 
-export const uploadUser = async (data: ProfileData) => {
+export const uploadUser = async (data: ProfileData, photoUrls: string[]) => {
     try {
-        const photoUrls = await uploadPhotos(data.photos)
         const {_stage: _, ...dataStoringData} = data
         return await firestore()
             .collection('Profiles')
             .doc(auth().currentUser?.uid)
-            // .doc("a")
             .set({...dataStoringData, photos: photoUrls, uid: auth().currentUser?.uid})
     } catch (e) {
         console.log(e)
     }
 }
 
-export const createChatUser = async (name: string) => {
-    try {
-        await axios.post(`${config.BASE_URL}/create-user`, {
-            uid: auth().currentUser?.uid,
+export const createChatUser = async (name: string, photo: string) => {
+    const authKey = Config.COMETCHAT_AUTH_KEY
+    const url = `https://${Config.COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users`
+    const body = {
+        uid: auth().currentUser?.uid,
+        name: name,
+        avatar: photo,
+        metadata: {
             firebase_doc_uid: auth().currentUser?.uid,
-            name,
-        });
+        }
+    }
+    const headers = {
+        headers: {
+            'Content-type':
+                "application/json",
+            Accept:
+                "application/json",
+            appId:
+            Config.COMETCHAT_APP_ID,
+            apiKey:
+            Config.COMETCHAT_API_KEY,
+            region:
+            Config.COMETCHAT_APP_REGION
+        }
+    }
+
+    try {
+        axios.post(url, body, headers)
     } catch (e) {
         console.log(e)
     }
@@ -99,13 +117,6 @@ export const getProfiles = async () => {
             const doc = await firestore().collection("Profiles")
                 .where(
                     "uid", '!=', auth().currentUser?.uid
-                    // firestore.Filter("birthday", "<=", minDate),
-                    // firestore.Filter("birthday", ">=", maxDate),
-                    // firestore.Filter("problems", "array-contains-any", profile.problems),
-                    // firestore.Filter.or(
-                    //     firestore.Filter("interestedGender", "==", profile.gender),
-                    //     firestore.Filter("interestedGender", "==", Genders.DOES_NOT_MATTER)
-                    // )
                 )
                 .get()
 
@@ -119,17 +130,10 @@ export const getProfiles = async () => {
                 })
                 var filtered: ProfileData[]
                 if (profile.interestedGender === Genders.DOES_NOT_MATTER) {
-                    // firestore.Filter("birthday", "<=", minDate),
-                    // firestore.Filter("birthday", ">=", maxDate),
-                    // firestore.Filter("problems", "array-contains-any", profile.problems),
-                    // firestore.Filter.or(
-                    //     firestore.Filter("interestedGender", "==", profile.gender),
-                    //     firestore.Filter("interestedGender", "==", Genders.DOES_NOT_MATTER)
-
                     filtered = data.filter(v =>
                         v.birthday! <= minDate
                         && v.birthday! >= maxDate
-                        // && v.problems.some(r=> profile.problems.includes(r))
+                        && v.problems.some(r => profile.problems.some(v => v.problemName === r.problemName))
                         && (v.interestedGender == profile.gender || v.interestedGender == Genders.DOES_NOT_MATTER)
                         && !profile.liked?.includes(v.uid!)
                     )
@@ -162,21 +166,19 @@ export const addLiked = async (uid: string) => {
 export const addChat = async (likerUid: string, likerName: string, likerPhoto: string, likedUid: string, likedName: string, likedPhoto: string) => {
     try {
         const collection = firestore().collection("chats")
-        await collection.add({
+        await Promise.all([collection.add({
             user_A_id: likerUid,
             user_A_name: likerName,
             user_B_id: likedUid,
             user_B_name: likedName,
             user_B_photo: likedPhoto
-        })
-
-        await collection.add({
+        }), collection.add({
             user_A_id: likedUid,
             user_A_name: likedName,
             user_B_id: likerUid,
             user_B_name: likerName,
             user_B_photo: likerPhoto
-        })
+        })])
     } catch (e) {
         console.log(e)
     }

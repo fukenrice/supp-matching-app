@@ -87,6 +87,7 @@ export default function MatchingScreen() {
     const fetchData = async () => {
         const remoteProfiles = await getProfiles()
         const profile = await getUserProfile()
+        console.log("remote: " + remoteProfiles)
         setUserProfile(profile)
         setProfiles(prevState => [...remoteProfiles!])
         setCardLength(remoteProfiles!.length)
