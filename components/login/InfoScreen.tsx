@@ -18,6 +18,8 @@ import {addDesc, addHobbies, addProblems, confirmDesc} from "../../redux/action-
 import HobbyModel from "../../data/models/HobbyModel";
 import BulletList from "../utils/BulletList";
 import React, {useRef, useState} from "react";
+import {SvgXml} from "react-native-svg";
+import {bioProgress} from "../../assets/bioProgress";
 
 export default function InfoScreen() {
 
@@ -28,8 +30,9 @@ export default function InfoScreen() {
 
     return <View style={styles.container}>
         <KeyboardAvoidingView
-            style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}}
+            style={{flex: 9, alignItems: 'flex-start', justifyContent: "center", width: "100%"}}
             behavior={"height"}>
+            <SvgXml xml={bioProgress} style={{top: -30, alignSelf: "center"}}/>
             <View style={styles.dataInputContainer}>
                 <Text style={loginHintsText}>О чем ты хочешь поговорить?</Text>
                 {state.problems.length !== 0 ?
@@ -77,9 +80,10 @@ export default function InfoScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'flex-start',
+        alignItems: 'center',
         alignSelf: 'stretch',
         justifyContent: 'center',
+        padding: 20
     },
     addButtonContainer: {
         borderRadius: 100,

@@ -21,6 +21,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {addPhoto, confirmPhotos} from "../../redux/action-creators/ProfileActionCreators";
 import {image_placeholder_conent} from "../../assets/image_placeholder_conent";
 import {uploadPhotos} from "../../data/repo/repo";
+import {photoProgress} from "../../assets/photoProgress";
 
 export default function PhotosScreen() {
 
@@ -50,7 +51,7 @@ export default function PhotosScreen() {
 
     return <View style={styles.container}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center", padding: 10}}>
-            <Text style={loginHintsText}>Выбери до 4 своих фото</Text>
+            <SvgXml xml={photoProgress}/>
             <FlatList data={state.photos.length < 4 ? fillArray(state.photos) : state.photos}
                       contentContainerStyle={{flex: 1, alignItems: "center", justifyContent: "center"}}
                       ItemSeparatorComponent={() => <View style={{height: 20}}/>}

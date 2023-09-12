@@ -5,6 +5,8 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addGender} from "../../redux/action-creators/ProfileActionCreators";
 import {RootState} from "../../redux/reducers/rootReducer";
+import {SvgXml} from "react-native-svg";
+import {genderProgress} from "../../assets/genderProgress";
 
 export default function GenderScreen() {
     const state = useSelector((state: RootState) => state.userProfile)
@@ -12,6 +14,7 @@ export default function GenderScreen() {
     const dispatch = useDispatch()
 
     return <View style={styles.container}>
+        <SvgXml xml={genderProgress} style={{position: "absolute", top: 10, width: "100%"}}/>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
             <Text style={loginHintsText}>Выбери пол</Text>
             <View style={styles.genderContainer}>

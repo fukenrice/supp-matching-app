@@ -6,6 +6,8 @@ import ButtonInactive from "../buttons/ButtonInactive";
 import {useDispatch, useSelector} from "react-redux";
 import {addName} from "../../redux/action-creators/ProfileActionCreators";
 import {RootState} from "../../redux/reducers/rootReducer";
+import {SvgXml} from "react-native-svg";
+import {nameProgress} from "../../assets/nameProgress";
 
 export default function NameScreen() {
 
@@ -15,6 +17,7 @@ export default function NameScreen() {
 
 
     return <KeyboardAvoidingView style={styles.container} behavior={"padding"} >
+        <SvgXml xml={nameProgress} style={{position: "absolute", top: 10}}/>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
             <Text style={loginHintsText}>Как к тебе обращаться?</Text>
             <TextInput placeholder={"Твое имя..."} style={{fontSize: 25, fontWeight: "600", textAlign: 'center'}}

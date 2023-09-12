@@ -8,6 +8,8 @@ import {formatDate} from "../../utils/formatDate";
 import {useDispatch, useSelector} from "react-redux";
 import {addBirthday, confirmBirthday} from "../../redux/action-creators/ProfileActionCreators";
 import {RootState} from "../../redux/reducers/rootReducer";
+import {SvgXml} from "react-native-svg";
+import {bdProgress} from "../../assets/bdProgress";
 
 export default function BirthdayScreen() {
 
@@ -20,6 +22,7 @@ export default function BirthdayScreen() {
     const dispatch = useDispatch()
 
     return <View style={styles.container}>
+        <SvgXml xml={bdProgress} style={{position: "absolute", top: 10}}/>
         <DatePicker
             modal
             open={open}
