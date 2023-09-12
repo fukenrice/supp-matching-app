@@ -1,4 +1,13 @@
-import {FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {
+    FlatList,
+    KeyboardAvoidingView,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
 import ButtonInactive from "../buttons/ButtonInactive";
@@ -8,17 +17,17 @@ import ProblemModel from "../../data/models/ProblemModel";
 import {addDesc, addHobbies, addProblems} from "../../redux/action-creators/ProfileActionCreators";
 import HobbyModel from "../../data/models/HobbyModel";
 import BulletList from "../utils/BulletList";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 
 export default function InfoScreen() {
 
     const state = useSelector((state: RootState) => state.userProfile)
     const dispatch = useDispatch()
     const [desc, setDesc] = useState(state.desc)
-
+    const textInputRef = useRef<TextInput>(null)
 
     return <View style={styles.container}>
-        <View style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}}>
+        <KeyboardAvoidingView style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}} behavior={"height"}>
             <View style={styles.dataInputContainer}>
                 <Text style={loginHintsText}>О чем ты хочешь поговорить?</Text>
                 {state.problems.length !== 0 ?
@@ -41,14 +50,14 @@ export default function InfoScreen() {
 
             </View>
 
-            <KeyboardAvoidingView style={{...styles.dataInputContainer, marginBottom: 0}}>
+            <View style={{...styles.dataInputContainer, marginBottom: 0}}>
                 <Text style={loginHintsText}>Расскажи о себе</Text>
                 <View style={styles.textInputContainer}>
-                    <TextInput multiline={true} numberOfLines={15} style={styles.textInput} maxLength={1500} onChangeText={(text) => setDesc(text)}
+                    <TextInput multiline={true} numberOfLines={15} style={styles.textInput} maxLength={1500} onChangeText={(text) => setDesc(text)} ref={textInputRef} onFocus={() =>console.log("focus")} onBlur={() => console.log("blur")}
                                placeholder={"Чем ты увлекаешься? Чего ищешь тут? Чего ждешь от общения?"}/>
                 </View>
-            </KeyboardAvoidingView>
-        </View>
+            </View>
+        </KeyboardAvoidingView>
 
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             { desc.length !== 0 && state.problems.length !== 0 ?

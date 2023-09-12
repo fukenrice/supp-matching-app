@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from "react-native";
+import {KeyboardAvoidingView, StyleSheet, Text, View} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
 import React, {useRef, useState} from "react";
@@ -11,7 +11,7 @@ export default function PhoneScreen({authFun}: {authFun: (val: string) => void }
     const phoneInput = useRef<PhoneInput>(null);
 
 
-    return <View style={styles.container}>
+    return <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
             <Text style={loginHintsText}>Введи номер телефона</Text>
 
@@ -42,7 +42,7 @@ export default function PhoneScreen({authFun}: {authFun: (val: string) => void }
             <ButtonInactive text={"Далее"}/>
             }
         </View>
-    </View>
+    </KeyboardAvoidingView>
 }
 
 const styles = StyleSheet.create({

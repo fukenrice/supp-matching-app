@@ -19,17 +19,21 @@ import InterestedGenderScreen from "./InterestedGenderScreen";
 import AgeRangeScreen from "./AgeRangeScreen";
 import ConfirmationScreen from "./ConfirmationScreen";
 import {useNavigation} from "@react-navigation/native";
+import {profileExists} from "../../data/repo/repo";
 
 export default function LoginRoot() {
     const dispatch = useDispatch()
     const state = useSelector((state: RootState) => state.userProfile)
     const nav = useNavigation<any>()
-    useEffect(() => {
-        if (auth().currentUser) {
+
+    const checkRegistered = async () => {
+        if (auth().currentUser && await profileExists(auth().currentUser!.uid)) {
             nav.replace("Main")
         }
-        // auth().signOut()
+    }
 
+    useEffect(() => {
+        checkRegistered()
         const backAction = () => {
             dispatch(goToPrevious())
             return true
@@ -63,19 +67,19 @@ export default function LoginRoot() {
     }
 
     return <View style={styles.container}>
-        {state._stage === ProfileActionTypes.INIT && <StartScreen />}
-        {state._stage === ProfileActionTypes.ADD_PHONE && <PhoneScreen authFun={signInWithPhoneNumber} />}
+        {state._stage === ProfileActionTypes.INIT && <StartScreen/>}
+        {state._stage === ProfileActionTypes.ADD_PHONE && <PhoneScreen authFun={signInWithPhoneNumber}/>}
         {state._stage === ProfileActionTypes.CONFIRM_PHONE && <PhoneConfirmationScreen confirmCode={confirmCode}/>}
-        {state._stage === ProfileActionTypes.ADD_NAME && <NameScreen />}
-        {state._stage === ProfileActionTypes.ADD_BIRTHDAY && <BirthdayScreen />}
-        {state._stage === ProfileActionTypes.ADD_GENDER && <GenderScreen />}
-        {state._stage === ProfileActionTypes.FILL_INFO && <InfoScreen />}
-        {state._stage === ProfileActionTypes.ADD_PROBLEMS && <ProblemsScreen />}
-        {state._stage === ProfileActionTypes.ADD_HOBBIES && <HobbiesScreen />}
-        {state._stage === ProfileActionTypes.ADD_PHOTO && <PhotosScreen />}
-        {state._stage === ProfileActionTypes.ADD_INTERESTED_GENDER && <InterestedGenderScreen />}
-        {state._stage === ProfileActionTypes.ADD_AGE_RANGE && <AgeRangeScreen />}
-        {state._stage === ProfileActionTypes.FINISH && <ConfirmationScreen />}
+        {state._stage === ProfileActionTypes.ADD_NAME && <NameScreen/>}
+        {state._stage === ProfileActionTypes.ADD_BIRTHDAY && <BirthdayScreen/>}
+        {state._stage === ProfileActionTypes.ADD_GENDER && <GenderScreen/>}
+        {state._stage === ProfileActionTypes.FILL_INFO && <InfoScreen/>}
+        {state._stage === ProfileActionTypes.ADD_PROBLEMS && <ProblemsScreen/>}
+        {state._stage === ProfileActionTypes.ADD_HOBBIES && <HobbiesScreen/>}
+        {state._stage === ProfileActionTypes.ADD_PHOTO && <PhotosScreen/>}
+        {state._stage === ProfileActionTypes.ADD_INTERESTED_GENDER && <InterestedGenderScreen/>}
+        {state._stage === ProfileActionTypes.ADD_AGE_RANGE && <AgeRangeScreen/>}
+        {state._stage === ProfileActionTypes.FINISH && <ConfirmationScreen/>}
 
     </View>
 }

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from "react-native";
+import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
 import React, {useState} from "react";
@@ -12,7 +12,7 @@ export default function NameScreen() {
     const dispatch = useDispatch()
 
 
-    return <View style={styles.container}>
+    return <KeyboardAvoidingView style={styles.container} behavior={"padding"} >
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
             <Text style={loginHintsText}>Как к тебе обращаться?</Text>
             <TextInput placeholder={"Твое имя..."} style={{fontSize: 25, fontWeight: "600", textAlign: 'center'}}
@@ -29,7 +29,7 @@ export default function NameScreen() {
                 <ButtonInactive text={"Далее"}/>
             }
         </View>
-    </View>
+    </KeyboardAvoidingView>
 }
 
 const styles = StyleSheet.create({
