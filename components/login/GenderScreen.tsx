@@ -2,12 +2,13 @@ import {StyleSheet, Text, View} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addGender} from "../../redux/action-creators/ProfileActionCreators";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 export default function GenderScreen() {
-
-    const [selectedMale, setSelectedMale] = useState(true)
+    const state = useSelector((state: RootState) => state.userProfile)
+    const [selectedMale, setSelectedMale] = useState(state.gender !== "female")
     const dispatch = useDispatch()
 
     return <View style={styles.container}>

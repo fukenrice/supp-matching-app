@@ -71,7 +71,7 @@ export default function LoginRoot() {
         {state._stage === ProfileActionTypes.ADD_PHONE && <PhoneScreen authFun={signInWithPhoneNumber}/>}
         {state._stage === ProfileActionTypes.CONFIRM_PHONE && <PhoneConfirmationScreen confirmCode={confirmCode}/>}
         {state._stage === ProfileActionTypes.ADD_NAME && <NameScreen/>}
-        {state._stage === ProfileActionTypes.ADD_BIRTHDAY && <BirthdayScreen/>}
+        {state._stage === ProfileActionTypes.CONFIRM_BIRTHDAY && <BirthdayScreen/>}
         {state._stage === ProfileActionTypes.ADD_GENDER && <GenderScreen/>}
         {state._stage === ProfileActionTypes.FILL_INFO && <InfoScreen/>}
         {state._stage === ProfileActionTypes.ADD_PROBLEMS && <ProblemsScreen/>}

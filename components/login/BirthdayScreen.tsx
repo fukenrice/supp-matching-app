@@ -5,11 +5,13 @@ import React, {useState} from "react";
 import ButtonInactive from "../buttons/ButtonInactive";
 import DatePicker from "react-native-date-picker";
 import {formatDate} from "../../utils/formatDate";
-import {useDispatch} from "react-redux";
-import {addBirthday} from "../../redux/action-creators/ProfileActionCreators";
+import {useDispatch, useSelector} from "react-redux";
+import {addBirthday, confirmBirthday} from "../../redux/action-creators/ProfileActionCreators";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 export default function BirthdayScreen() {
 
+    const state = useSelector((state: RootState) => state.userProfile)
     const maxDate = new Date()
     maxDate.setFullYear(maxDate.getFullYear() - 18)
     const [date, setDate] = useState(maxDate)
@@ -27,8 +29,7 @@ export default function BirthdayScreen() {
             androidVariant={"nativeAndroid"}
             onConfirm={(date) => {
                 setOpen(false)
-                setDate(date)
-                setInit(false)
+                dispatch(addBirthday(date))
             }}
             onCancel={() => {
                 setOpen(false)
@@ -37,13 +38,14 @@ export default function BirthdayScreen() {
         <View style={{flex: 9, alignItems: "center", justifyContent: "center"}}>
             <Text style={loginHintsText}>Выбери дату своего рождения</Text>
             <Text
-                style={init ? {...styles.date, color: "grey"} : {...styles.date}} onPress={() => setOpen(true)}>{init ? "Твоя дата рождения" : formatDate(date)}</Text>
+                style={state.birthday ? {...styles.date} : {...styles.date, color: "grey"}}
+                onPress={() => setOpen(true)}>{state.birthday ? formatDate(state.birthday) : "Твоя дата рождения"}</Text>
         </View>
 
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
-            {!init ?
+            {state.birthday ?
                 <ButtonActive text={"Далее"} onClick={() => {
-                    dispatch(addBirthday(date))
+                    dispatch(confirmBirthday())
                 }}/>
                 :
                 <ButtonInactive text={"Далее"}/>

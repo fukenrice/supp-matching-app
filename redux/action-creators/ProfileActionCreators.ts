@@ -8,7 +8,7 @@ import {
     AddNameAction,
     AddPhoneAction,
     AddPhotoAction,
-    AddProblemsAction,
+    AddProblemsAction, ConfirmBirthdayAction, ConfirmDescAction,
     ConfirmHobbiesAction,
     ConfirmPhoneAction,
     ConfirmPhotosAction,
@@ -46,6 +46,10 @@ export const addBirthday = (birthday: Date): AddBirthdayAction => {
     return {type: ProfileActionTypes.ADD_BIRTHDAY, payload: birthday}
 }
 
+export const confirmBirthday = (): ConfirmBirthdayAction => {
+    return {type: ProfileActionTypes.CONFIRM_BIRTHDAY}
+}
+
 export const addGender = (gender: string): AddGenderAction => {
     return {type: ProfileActionTypes.ADD_GENDER, payload: gender}
 }
@@ -68,6 +72,10 @@ export const confirmHobbies = (hobbies: HobbyModel[]): ConfirmHobbiesAction => {
 
 export const addDesc = (desc: string): AddDescAction => {
     return {type: ProfileActionTypes.ADD_DESC, payload: desc}
+}
+
+export const confirmDesc = (): ConfirmDescAction => {
+    return {type: ProfileActionTypes.CONFIRM_DESC}
 }
 
 export const addPhoto = (uri: string, index?: number): AddPhotoAction => {

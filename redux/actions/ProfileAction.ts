@@ -31,6 +31,10 @@ export interface AddBirthdayAction {
     payload: Date
 }
 
+export interface ConfirmBirthdayAction {
+    type: ProfileActionTypes.CONFIRM_BIRTHDAY,
+}
+
 export interface AddGenderAction {
     type: ProfileActionTypes.ADD_GENDER,
     payload: string
@@ -61,6 +65,10 @@ export interface ConfirmHobbiesAction{
 export interface AddDescAction {
     type: ProfileActionTypes.ADD_DESC,
     payload: string
+}
+
+export interface ConfirmDescAction {
+    type: ProfileActionTypes.CONFIRM_DESC,
 }
 
 export interface AddPhotoAction {
@@ -95,6 +103,7 @@ export type ProfileAction =
     | ConfirmPhoneAction
     | AddNameAction
     | AddBirthdayAction
+    | ConfirmBirthdayAction
     | AddGenderAction
     | FillInfoAction
     | AddProblemsAction
@@ -102,6 +111,7 @@ export type ProfileAction =
     | AddHobbiesAction
     | ConfirmHobbiesAction
     | AddDescAction
+    | ConfirmDescAction
     | AddPhotoAction
     | ConfirmPhotosAction
     | AddInterestedGenderAction

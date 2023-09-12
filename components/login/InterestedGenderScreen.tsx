@@ -4,12 +4,13 @@ import ButtonActive from "../buttons/ButtonActive";
 import React, {useState} from "react";
 import ButtonInactive from "../buttons/ButtonInactive";
 import {Genders} from "../../data/models/Genders";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addInterestedGender} from "../../redux/action-creators/ProfileActionCreators";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 export default function InterestedGenderScreen() {
-
-    const [gender, setGender] = useState(Genders.DOES_NOT_MATTER)
+    const state = useSelector((state: RootState) => state.userProfile)
+    const [gender, setGender] = useState(state.interestedGender as Genders)
     const dispatch = useDispatch()
 
     return <View style={styles.container}>

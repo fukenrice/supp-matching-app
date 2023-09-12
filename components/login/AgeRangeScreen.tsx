@@ -5,16 +5,18 @@ import React, {useState} from "react";
 import {SvgXml} from "react-native-svg";
 import * as SliderAssets from "../../assets/sliderAssets"
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addAgeRange} from "../../redux/action-creators/ProfileActionCreators";
+import {RootState} from "../../redux/reducers/rootReducer";
 
 export default function AgeRangeScreen() {
 
+    const state = useSelector((state: RootState) => state.userProfile)
     const Thumb = () => <SvgXml style={{flex: 1}} xml={SliderAssets.thumb}/>
     const [
         sliderValue,
         setSliderValue,
-    ] = useState([18, 99]);
+    ] = useState([state.lowerAge, state.higherAge]);
     const dispatch = useDispatch()
 
 

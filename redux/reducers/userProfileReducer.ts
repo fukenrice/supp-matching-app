@@ -1,11 +1,9 @@
 import {ProfileAction} from "../actions/ProfileAction";
-import ProblemModel from "../../data/models/ProblemModel";
-import HobbyModel from "../../data/models/HobbyModel";
 import {ProfileActionTypes} from "../action-types";
 import {Reducer} from "redux";
 import {EnumX} from "../../utils/IterableEnum";
 import {ProfileData} from "../../data/models/ProfileData";
-
+import {Genders} from "../../data/models/Genders";
 
 
 const INITIAL_STATE: ProfileData = {
@@ -18,7 +16,7 @@ const INITIAL_STATE: ProfileData = {
     hobbies: [],
     desc: "",
     photos: [],
-    interestedGender: "",
+    interestedGender: Genders.DOES_NOT_MATTER,
     lowerAge: 18,
     higherAge: 99
 }
@@ -40,6 +38,9 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
             if (state._stage === ProfileActionTypes.ADD_NAME) {
                 return {...state}
             }
+            if (state._stage === ProfileActionTypes.CONFIRM_BIRTHDAY) {
+                return {...state, _stage: ProfileActionTypes.ADD_NAME}
+            }
             const stage = EnumX.of(ProfileActionTypes).prev(state._stage)
             if (stage === undefined) {
                 return {...state}
@@ -52,9 +53,11 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
             // TODO: Skip next steps, get profile data and go to stage "FINISH" if phone exists.
             return {...state, _stage: ProfileActionTypes.ADD_NAME}
         case ProfileActionTypes.ADD_NAME:
-            return {...state, name: action.payload, _stage: ProfileActionTypes.ADD_BIRTHDAY}
+            return {...state, name: action.payload, _stage: ProfileActionTypes.CONFIRM_BIRTHDAY}
         case ProfileActionTypes.ADD_BIRTHDAY:
-            return {...state, birthday: action.payload, _stage: ProfileActionTypes.ADD_GENDER}
+            return {...state, birthday: action.payload}
+        case ProfileActionTypes.CONFIRM_BIRTHDAY:
+            return {...state, _stage: ProfileActionTypes.ADD_GENDER}
         case ProfileActionTypes.ADD_GENDER:
             return {...state, gender: action.payload, _stage: ProfileActionTypes.FILL_INFO}
         case ProfileActionTypes.FILL_INFO:
@@ -68,7 +71,9 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
         case ProfileActionTypes.CONFIRM_HOBBIES:
             return {...state, _stage: ProfileActionTypes.FILL_INFO, hobbies: action.payload}
         case ProfileActionTypes.ADD_DESC:
-            return {...state, desc: action.payload, _stage: ProfileActionTypes.ADD_PHOTO}
+            return {...state, desc: action.payload}
+        case ProfileActionTypes.CONFIRM_DESC:
+            return {...state, _stage: ProfileActionTypes.ADD_PHOTO}
         case ProfileActionTypes.ADD_PHOTO:
             const photos = [...state.photos]
             if (action.payload.index !== undefined) {
