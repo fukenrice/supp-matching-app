@@ -3,6 +3,10 @@ import ProblemModel from "../../data/models/ProblemModel";
 import HobbyModel from "../../data/models/HobbyModel";
 import {Genders} from "../../data/models/Genders";
 
+export interface LogoutAction {
+    type: ProfileActionTypes.LOGOUT
+}
+
 export interface InitAction {
     type: ProfileActionTypes.INIT,
 }
@@ -97,7 +101,8 @@ export interface FinishAction {
 
 
 export type ProfileAction =
-    InitAction
+    LogoutAction
+    | InitAction
     | GoToPreviousAction
     | AddPhoneAction
     | ConfirmPhoneAction

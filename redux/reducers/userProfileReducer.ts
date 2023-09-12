@@ -24,6 +24,8 @@ const INITIAL_STATE: ProfileData = {
 
 export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = INITIAL_STATE, action: ProfileAction): ProfileData => {
     switch (action.type) {
+        case ProfileActionTypes.LOGOUT:
+            return {...state, _stage: ProfileActionTypes.INIT}
         case ProfileActionTypes.INIT:
             return {...state, _stage: ProfileActionTypes.ADD_PHONE}
         case ProfileActionTypes.GO_TO_PREVIOUS:
@@ -40,6 +42,9 @@ export const userProfileReducer: Reducer<ProfileData, ProfileAction> = (state = 
             }
             if (state._stage === ProfileActionTypes.CONFIRM_BIRTHDAY) {
                 return {...state, _stage: ProfileActionTypes.ADD_NAME}
+            }
+            if (state._stage === ProfileActionTypes.INIT) {
+                return {...state}
             }
             const stage = EnumX.of(ProfileActionTypes).prev(state._stage)
             if (stage === undefined) {

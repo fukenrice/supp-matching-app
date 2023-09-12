@@ -8,19 +8,26 @@ import {
     AddNameAction,
     AddPhoneAction,
     AddPhotoAction,
-    AddProblemsAction, ConfirmBirthdayAction, ConfirmDescAction,
+    AddProblemsAction,
+    ConfirmBirthdayAction,
+    ConfirmDescAction,
     ConfirmHobbiesAction,
     ConfirmPhoneAction,
     ConfirmPhotosAction,
     ConfirmProblemsAction,
     FinishAction,
     GoToPreviousAction,
-    InitAction
+    InitAction,
+    LogoutAction
 } from "../actions/ProfileAction";
 import {ProfileActionTypes} from "../action-types";
 import ProblemModel from "../../data/models/ProblemModel";
 import HobbyModel from "../../data/models/HobbyModel";
 import {Genders} from "../../data/models/Genders";
+
+export const logout = (): LogoutAction => {
+    return {type: ProfileActionTypes.LOGOUT}
+}
 
 export const init = (): InitAction => {
     return {type: ProfileActionTypes.INIT}

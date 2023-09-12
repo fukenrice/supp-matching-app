@@ -2,7 +2,7 @@ import {Alert, Button, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacit
 import {loginHintsText} from "../../styles";
 import React, {LegacyRef, useEffect, useRef, useState} from "react";
 import UserCard from "../card/UserCard";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-deck-swiper";
 import {addChat, addLiked, getProfiles, getUserProfile, uploadUser} from "../../data/repo/repo";
@@ -14,6 +14,7 @@ import auth from "@react-native-firebase/auth";
 import Config from "react-native-config";
 import {useNavigation} from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
+import {logout} from "../../redux/action-creators/ProfileActionCreators";
 
 
 export default function MatchingScreen() {
@@ -28,6 +29,7 @@ export default function MatchingScreen() {
     const [showBack, setShowBack] = useState(true)
     const [userProfile, setUserProfile] = useState<ProfileData>()
     const nav = useNavigation<any>()
+    const dispatch= useDispatch()
 
     useEffect(() => {
         console.log("auth key: " + authKey)
@@ -51,7 +53,7 @@ export default function MatchingScreen() {
 
     function handleYup(index: number) {
         likeProfile(profiles[index])
-        if ([profiles[index].liked?.includes(userProfile?.uid!)]) {
+        if (profiles[index].liked?.includes(userProfile?.uid!)) {
             // TODO: make alert modal
             Alert.alert("Мэтч!", `Поздравляю, у вас взаимная симпатия c пользователем ${profiles[index].name}! Вы можете написать ему/ей на странице с чатами. Удачи в общении!`)
             addChat(userProfile?.uid!,
@@ -101,7 +103,8 @@ export default function MatchingScreen() {
                     Мэтчи по тегам
                 </Text>
                 <AntDesign name="logout" size={24} color="black" onPress={async () => {
-                    await auth().signOut()
+                    await Promise.all([auth().signOut(), CometChat.logout()])
+                    dispatch(logout())
                     nav.replace("Login")
                 }}/>
             </View>
@@ -118,8 +121,8 @@ export default function MatchingScreen() {
 
         </View>
 
-        <View style={{flex: 9, alignSelf: "stretch"}}>
-            {profiles.length !== 0 && !swipedAll &&
+        <View style={{flex: 9, alignSelf: "stretch", justifyContent: "center"}}>
+            {profiles.length !== 0 && !swipedAll ?
                 <Swiper<ProfileData>
                     cards={profiles}
                     cardIndex={index}
@@ -196,6 +199,8 @@ export default function MatchingScreen() {
                     }}
                     stackSize={2}
                 />
+                :
+                <Text style={{fontSize: 20, fontWeight: "500", alignSelf: "center"}}>Анкет больше нет, придется подождать, пока появятся новые пользователи</Text>
             }
 
         </View>

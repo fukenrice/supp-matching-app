@@ -1,4 +1,5 @@
 export enum ProfileActionTypes {
+    LOGOUT = "LOGOUT",
     INIT = "INIT",
     ADD_PHONE = "ADD_PHONE",
     CONFIRM_PHONE = "CONFIRM_PHONE",
