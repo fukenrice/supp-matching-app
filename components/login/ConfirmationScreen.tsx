@@ -1,29 +1,38 @@
 import {StyleSheet, Text, View} from "react-native";
 import {loginHintsText} from "../../styles";
 import ButtonActive from "../buttons/ButtonActive";
-import React from "react";
+import React, {useState} from "react";
 import UserCard from "../card/UserCard";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-swiper";
-import {createChatUser, uploadPhotos, uploadUser} from "../../data/repo/repo";
+import {createChatUser, getProblems, uploadPhotos, uploadUser} from "../../data/repo/repo";
 import {useNavigation} from "@react-navigation/native";
 import {calculateAge} from "../../utils/calculateAge";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function ConfirmationScreen() {
 
     const state = useSelector((state: RootState) => state.userProfile)
     const nav = useNavigation<any>()
+    const [spinner, setSpinner] = useState(false)
 
     const createUsers = async () => {
+        setSpinner(true)
         const photos = await uploadPhotos(state.photos)
         if (photos) {
             await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0])])
         }
+        setSpinner(false)
     }
 
 
     return <View style={styles.container}>
+        <Spinner
+            visible={spinner}
+            textContent={'Создаю профиль...'}
+            textStyle={{color: "white"}}
+        />
         <View style={{flex: 9, alignItems: "center", justifyContent: "center", width: "100%", padding: 20}}>
             <Text style={loginHintsText}></Text>
             <UserCard name={state.name} desc={state.desc} birthday={calculateAge(state.birthday!)} hobbies={state.hobbies}

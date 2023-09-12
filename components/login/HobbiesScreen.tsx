@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {confirmHobbies} from "../../redux/action-creators/ProfileActionCreators";
 import HobbyModel from "../../data/models/HobbyModel";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const reactNativeTagSelect = require("react-native-tag-select")
 const TagSelect = reactNativeTagSelect.TagSelect
@@ -21,11 +22,17 @@ export default function HobbiesScreen() {
     const state = useSelector((state: RootState) => state.userProfile)
     const [checkedCount, setCheckedCount] = useState(state.hobbies.length)
     const dispatch = useDispatch()
+    const [spinner, setSpinner] = useState(false)
 
     const fetchHobbies = async () => {
+        setSpinner(true)
+
         const remote = await getHobbies()
-        setDisplayedHobbies(remote)
-        setHobbies(remote)
+        if (remote) {
+            setDisplayedHobbies(remote)
+            setHobbies(remote)
+        }
+        setSpinner(false)
     }
 
     useEffect(() => {
@@ -38,6 +45,11 @@ export default function HobbiesScreen() {
 
 
     return <View style={styles.container}>
+        <Spinner
+            visible={spinner}
+            textContent={'Загружаю хобби...'}
+            textStyle={{color: "white"}}
+        />
         <View style={{flex: 9, alignItems: "flex-start", width: "100%", padding: 20}}>
             <Text
                 style={{

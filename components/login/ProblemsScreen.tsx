@@ -6,10 +6,11 @@ import ButtonInactive from "../buttons/ButtonInactive";
 import {SearchBar} from "@rneui/themed";
 import {Ionicons} from '@expo/vector-icons';
 import ProblemModel from "../../data/models/ProblemModel";
-import {getProblems} from "../../data/repo/repo";
+import {getHobbies, getProblems} from "../../data/repo/repo";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {confirmProblems} from "../../redux/action-creators/ProfileActionCreators";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const reactNativeTagSelect = require("react-native-tag-select")
 const TagSelect = reactNativeTagSelect.TagSelect
@@ -21,11 +22,16 @@ export default function ProblemsScreen() {
     const state = useSelector((state: RootState) => state.userProfile)
     const [checkedCount, setCheckedCount] = useState(state.problems.length)
     const dispatch = useDispatch()
+    const [spinner, setSpinner] = useState(false)
 
     const fetchProblems = async () => {
+        setSpinner(true)
         const remote = await getProblems()
-        setDisplayedProblems(remote)
-        setProblems(remote)
+        if (remote) {
+            setDisplayedProblems(remote)
+            setProblems(remote)
+        }
+        setSpinner(false)
     }
 
     useEffect(() => {
@@ -38,6 +44,11 @@ export default function ProblemsScreen() {
 
 
     return <View style={styles.container}>
+        <Spinner
+            visible={spinner}
+            textContent={'Загружаю проблемы...'}
+            textStyle={{color: "white"}}
+        />
         <View style={{flex: 9, alignItems: "flex-start", width: "100%", padding: 20}}>
             <Text
                 style={{
