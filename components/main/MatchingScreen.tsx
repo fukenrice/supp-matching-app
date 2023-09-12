@@ -32,7 +32,6 @@ export default function MatchingScreen() {
     const dispatch= useDispatch()
 
     useEffect(() => {
-        console.log("auth key: " + authKey)
         fetchData()
         CometChat.login(auth().currentUser!.uid.toLowerCase(), authKey).then(
             user => {
@@ -53,16 +52,22 @@ export default function MatchingScreen() {
 
     function handleYup(index: number) {
         likeProfile(profiles[index])
-        if (profiles[index].liked?.includes(userProfile?.uid!)) {
-            // TODO: make alert modal
-            Alert.alert("Мэтч!", `Поздравляю, у вас взаимная симпатия c пользователем ${profiles[index].name}! Вы можете написать ему/ей на странице с чатами. Удачи в общении!`)
-            addChat(userProfile?.uid!,
-                userProfile?.name!,
-                userProfile?.photos[0]!,
-                profiles[index].uid!,
-                profiles[index].name,
-                profiles[index].photos[0])
-        }
+        console.log("profiles[index]: " + profiles[index].name)
+        getUserProfile(profiles[index].uid!).then((profile) => {
+            if (profile) {
+                if (profile.liked?.includes(userProfile?.uid!)) {
+                    // TODO: make alert modal
+                    Alert.alert("Мэтч!", `Поздравляю, у вас взаимная симпатия c пользователем ${profile.name}! Вы можете написать ему/ей на странице с чатами. Удачи в общении!`)
+                    addChat(userProfile?.uid!,
+                        userProfile?.name!,
+                        userProfile?.photos[0]!,
+                        profiles[index].uid!,
+                        profiles[index].name,
+                        profiles[index].photos[0])
+                }
+            }
+        }).catch((e) => console.log(e))
+
         setProfiles(prevState => {
             prevState.splice(index, 1)
             if (prevState.length === 0) {
@@ -88,8 +93,7 @@ export default function MatchingScreen() {
 
     const fetchData = async () => {
         const remoteProfiles = await getProfiles()
-        const profile = await getUserProfile()
-        console.log("remote: " + remoteProfiles)
+        const profile = await getUserProfile(auth().currentUser?.uid!)
         setUserProfile(profile)
         setProfiles(prevState => [...remoteProfiles!])
         setCardLength(remoteProfiles!.length)

@@ -112,9 +112,9 @@ export const profileExists = async (uid: string) => {
     }
 }
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (uid: string) => {
     try {
-        const doc = await firestore().doc(`Profiles/${auth().currentUser?.uid}`).get()
+        const doc = await firestore().doc(`Profiles/${uid}`).get()
         if (doc.exists) {
 
             const data = {
@@ -131,7 +131,7 @@ export const getUserProfile = async () => {
 
 export const getProfiles = async () => {
     try {
-        const profile = await getUserProfile()
+        const profile = await getUserProfile(auth().currentUser?.uid!)
         if (profile) {
             const minDate = moment().add(1, "day").subtract(profile.lowerAge, 'years').toDate()
             const maxDate = moment().subtract(profile.higherAge, 'years').toDate()
