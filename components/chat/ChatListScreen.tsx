@@ -39,22 +39,23 @@ export default function ChatListScreen({navigation: navigation, }: ChatListProps
             <Ionicons name="search" style={{marginRight: 5}} size={20} color="grey"/>
             <TextInput placeholder={"Поиск..."} style={{width: "100%"}} onChangeText={(text) => {
                 setDisplayedChats(prevState => {
+                    console.log(chats.filter(v => v.name.includes(text)))
                     return chats.filter(v => v.name.includes(text))
                 })
             }}/>
         </View>
-        <FlatList data={displayedChats} renderItem={(item) => {
+        <FlatList data={displayedChats} keyExtractor={(item) => item.uid} style={{width: "100%"}} renderItem={({item}) => {
             return <TouchableOpacity style={styles.chatContainer} onPress={() => nav.navigate("PrivateChat", {
-                companionUid: item.item.uid,
-                companionName: item.item.name,
-                companionPhoto: item.item.photo
+                companionUid: item.uid,
+                companionName: item.name,
+                companionPhoto: item.photo
             })}>
-                <Image source={{uri: item.item.photo}} style={{borderRadius: 100, aspectRatio: 1, width: 60}}/>
+                <Image source={{uri: item.photo}} style={{borderRadius: 100, aspectRatio: 1, width: 60}}/>
                 <View style={{marginLeft: 20}}>
-                    <Text style={{fontWeight: "bold", fontSize: 20}}>{item.item.name}</Text>
+                    <Text style={{fontWeight: "bold", fontSize: 20}}>{item.name}</Text>
                     <Text style={{color: "grey"}}>last message placeholder..</Text>
                 </View>
-            </TouchableOpacity>
+             </TouchableOpacity>
         }}/>
     </View>
 }
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         width: "100%",
-        height: "100%",
+        marginBottom: 10
     },
     searchContainer: {
         marginBottom: 10,
