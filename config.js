@@ -1,6 +1,6 @@
 const config = {
     APP_TITLE: 'supp',
-    BASE_URL: 'https://54fe-109-252-153-26.ngrok-free.app',
+    BASE_URL: 'http://46.173.215.205:80',
 };
 
 export default config;
