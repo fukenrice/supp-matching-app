@@ -63,6 +63,7 @@ class CometChatMessages extends React.PureComponent {
       threadMessageParent: {},
       userDetailVisible: false,
       groupDetailVisible: false,
+      firebaseUid: props.firebaseUid,
       user: params.type === 'user' ? params.item : null,
       showProfile: false,
       // ongoingDirectCall: false,
@@ -322,7 +323,7 @@ class CometChatMessages extends React.PureComponent {
         break;
       case actions.VIEW_DETAIL:
         if (params.type === CometChat.RECEIVER_TYPE.USER) {
-          this.setState({ userDetailVisible: true });
+          this.props.navigation.navigate("UserProfile", {uid: this.state.firebaseUid})
         } else {
           this.setState({ groupDetailVisible: true });
         }

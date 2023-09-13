@@ -824,7 +824,7 @@ export default class CometChatMessageComposer extends React.PureComponent {
               style={style.messageInputStyle}
               editable={!disabled}
               value={this.state.messageInput}
-              placeholder="Type a Message..."
+              placeholder="Сообщение..."
               onChangeText={(text) => this.changeHandler(text)}
               onBlur={this.endTyping}
               ref={this.messageInputRef}

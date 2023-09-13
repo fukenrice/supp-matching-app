@@ -1154,12 +1154,12 @@ class CometChatMessageList extends React.PureComponent {
       <View style={styles.newMessagePopupContainer}>
         <TouchableOpacity
           onPress={() => {
-            this.setState({ showNewMsg: null }, () => {
-              this.flatListRef.current.scrollToOffset({
-                offset: 0,
-                animated: true,
-              });
-            });
+            // this.setState({ showNewMsg: null }, () => {
+            //   this.flatListRef.current.scrollToOffset({
+            //     offset: 0,
+            //     animated: true,
+            //   });
+            // });
           }}
           style={styles.newMessageTextContainer}>
           <Text>New message</Text>
