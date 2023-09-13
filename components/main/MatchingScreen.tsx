@@ -5,7 +5,7 @@ import UserCard from "../card/UserCard";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-deck-swiper";
-import {addChat, addLiked, getProfiles, getUserProfile, uploadUser} from "../../data/repo/repo";
+import {addChat, addLiked, getProfiles, getUserProfile, sendNotification, uploadUser} from "../../data/repo/repo";
 import {ProfileData} from "../../data/models/ProfileData";
 import {calculateAge} from "../../utils/calculateAge";
 import BulletList from "../utils/BulletList";
@@ -13,7 +13,7 @@ import {CometChat} from "@cometchat-pro/react-native-chat";
 import auth from "@react-native-firebase/auth";
 import Config from "react-native-config";
 import {useNavigation} from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons';
+import {AntDesign} from '@expo/vector-icons';
 import {logout} from "../../redux/action-creators/ProfileActionCreators";
 
 
@@ -29,7 +29,7 @@ export default function MatchingScreen() {
     const [showBack, setShowBack] = useState(true)
     const [userProfile, setUserProfile] = useState<ProfileData>()
     const nav = useNavigation<any>()
-    const dispatch= useDispatch()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         fetchData()
@@ -57,6 +57,8 @@ export default function MatchingScreen() {
             if (profile) {
                 if (profile.liked?.includes(userProfile?.uid!)) {
                     // TODO: make alert modal
+                    sendNotification(userProfile?.name!, profile.uid!)
+
                     Alert.alert("Мэтч!", `Поздравляю, у вас взаимная симпатия c пользователем ${profile.name}! Вы можете написать ему/ей на странице с чатами. Удачи в общении!`)
                     addChat(userProfile?.uid!,
                         userProfile?.name!,
@@ -204,7 +206,8 @@ export default function MatchingScreen() {
                     stackSize={2}
                 />
                 :
-                <Text style={{fontSize: 20, fontWeight: "500", alignSelf: "center"}}>Анкет больше нет, придется подождать, пока появятся новые пользователи</Text>
+                <Text style={{fontSize: 20, fontWeight: "500", alignSelf: "center"}}>Анкет больше нет, придется
+                    подождать, пока появятся новые пользователи</Text>
             }
 
         </View>

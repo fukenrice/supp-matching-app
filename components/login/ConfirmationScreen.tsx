@@ -6,7 +6,7 @@ import UserCard from "../card/UserCard";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/reducers/rootReducer";
 import Swiper from "react-native-swiper";
-import {createChatUser, getProblems, uploadPhotos, uploadUser} from "../../data/repo/repo";
+import {createChatUser, getProblems, registerMessagingUser, uploadPhotos, uploadUser} from "../../data/repo/repo";
 import {useNavigation} from "@react-navigation/native";
 import {calculateAge} from "../../utils/calculateAge";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -21,7 +21,7 @@ export default function ConfirmationScreen() {
         setSpinner(true)
         const photos = await uploadPhotos(state.photos)
         if (photos) {
-            await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0])])
+            await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0]), registerMessagingUser()])
         }
         setSpinner(false)
     }

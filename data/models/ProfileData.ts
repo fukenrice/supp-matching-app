@@ -16,5 +16,5 @@ export interface ProfileData {
     lowerAge: number,
     higherAge: number,
     uid?: string,
-    liked?: string[]
+    liked?: string[],
 }

@@ -9,6 +9,7 @@ import moment from "moment";
 import config from "../../config";
 import axios from "axios";
 import Config from "react-native-config";
+import messaging from '@react-native-firebase/messaging';
 
 export const getProblems = async () => {
     try {
@@ -48,10 +49,48 @@ export const uploadPhotos = async (photos: string[]) => {
 export const uploadUser = async (data: ProfileData, photoUrls: string[]) => {
     try {
         const {_stage: _, ...dataStoringData} = data
+        const token = await messaging().getToken()
         return await firestore()
             .collection('Profiles')
             .doc(auth().currentUser?.uid)
             .set({...dataStoringData, photos: photoUrls, uid: auth().currentUser?.uid})
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export const registerMessagingUser = async () => {
+    try {
+        const url = config.BASE_URL + "/register"
+        const data = {
+            fcmToken: messaging().getToken(),
+            uid: auth().currentUser?.uid
+        }
+        const header = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        await axios.post(url, data, header)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export const sendNotification = async (name: string, uid: string) => {
+    try {
+        const url = config.BASE_URL + "/send-message"
+        const data = {
+            uid: uid,
+            messageContent: `У вас взаимная симпатия с пользователем ${name}, во вкладке с диалогами у вас появился соответствующий диалог. Удачного общения!`,
+            messageTitle: "Мэтч!"
+        }
+        const header = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        await axios.post(url, data, header)
     } catch (e) {
         console.log(e)
     }
