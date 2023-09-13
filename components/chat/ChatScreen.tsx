@@ -42,6 +42,7 @@ export default function ChatScreen({navigation: navigation, route: route,}: Priv
                 <CometChatMessages
                     type={'user'}
                     item={userToChat}
+                    firebaseUid={route.params.companionUid}
                     loggedInUser={localUser}
                     actionGenerated={actionGenerated}
                     audioCall={false}

@@ -9,6 +9,7 @@ import ChatScreen from "./components/chat/ChatScreen";
 import {SvgXml} from "react-native-svg";
 import {mainTabIcon} from "./assets/mainTabIcon";
 import {chatIcon} from "./assets/chatIcon";
+import UserProfile from "./components/chat/UserProfile";
 
 const commonOptions = {
     headerShown: false,
@@ -39,6 +40,9 @@ const privateChatOptions = {
     ...commonOptions,
 }
 
+const userProfileOptions = {
+    ...commonOptions,
+}
 
 const matchesOptions = {
     ...commonOptions,
@@ -65,6 +69,9 @@ type ChatParamList = {
         companionUid: string,
         companionName: string,
         companionPhoto: string
+    },
+    UserProfile: {
+        uid: string
     }
 }
 
@@ -72,11 +79,13 @@ const ChatStack = createStackNavigator<ChatParamList>()
 
 export type PrivateChatProps = StackScreenProps<ChatParamList, 'PrivateChat'>;
 export type ChatListProps = StackScreenProps<ChatParamList, 'ChatList'>;
+export type UserProfileProps = StackScreenProps<ChatParamList, "UserProfile">
 
 const ChatStackNavigator = () => {
     return <ChatStack.Navigator>
         <ChatStack.Screen name={"ChatList"} component={ChatListScreen} options={chatOptions}/>
         <ChatStack.Screen name={"PrivateChat"} component={ChatScreen} options={privateChatOptions}/>
+        <ChatStack.Screen name={"UserProfile"} component={UserProfile} options={userProfileOptions}/>
     </ChatStack.Navigator>
 }
 
