@@ -21,9 +21,12 @@ export default function ConfirmationScreen() {
         setSpinner(true)
         const photos = await uploadPhotos(state.photos)
         if (photos) {
-            await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0]), registerMessagingUser()])
+            const [firebaseUser, chatUser, messagingUser] = await Promise.all([uploadUser(state, photos), createChatUser(state.name, photos[0]), registerMessagingUser()])
+            setSpinner(false)
+            return firebaseUser && chatUser && messagingUser
         }
         setSpinner(false)
+        return false
     }
 
 
@@ -44,9 +47,13 @@ export default function ConfirmationScreen() {
 
         <View style={{flex: 1, width: "100%", alignItems: "center"}}>
             <ButtonActive text={"Сохранить и начать поиск"} onClick={async () => {
-                await createUsers()
-                nav.replace("Main")
-                console.log("profile added")
+                const result = await createUsers()
+                if (result) {
+                    nav.replace("Main")
+                    console.log("profile added")
+                } else {
+                    alert("Ошибка при создании профиля, пожалуйста, повторите попытку позднее")
+                }
             }}/>
         </View>
     </View>

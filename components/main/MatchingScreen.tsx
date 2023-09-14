@@ -37,9 +37,9 @@ export default function MatchingScreen() {
             user => {
                 console.log('Login Successful:', {user});
             },
-            error => {
+            async error => {
                 alert('Login Failed. Please try again.');
-                auth().signOut();
+                await auth().signOut();
                 nav.replace("Login")
                 console.log('Login failed with exception:', {error});
             },
@@ -96,6 +96,11 @@ export default function MatchingScreen() {
     const fetchData = async () => {
         const remoteProfiles = await getProfiles()
         const profile = await getUserProfile(auth().currentUser?.uid!)
+        if (!profile) {
+            alert('Error getting profile, please try again later.');
+            await auth().signOut();
+            nav.replace("Login")
+        }
         setUserProfile(profile)
         setProfiles(prevState => [...remoteProfiles!])
         setCardLength(remoteProfiles!.length)

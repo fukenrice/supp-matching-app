@@ -14,24 +14,34 @@ import messaging from '@react-native-firebase/messaging';
 export const getProblems = async () => {
     try {
         const doc = await firestore().collection("tags").doc("problems").get()
-        const problems = doc.data() as {
-            problems: ProblemModel[]
+        if (doc.exists) {
+            const problems = doc.data() as {
+                problems: ProblemModel[]
+            }
+            return problems.problems
+        } else {
+            return []
         }
-        return problems.problems
     } catch (e) {
         console.log(e)
+        return []
     }
 }
 
 export const getHobbies = async () => {
     try {
         const doc = await firestore().collection("tags").doc("hobbies").get()
-        const hobbies = doc.data() as {
-            hobbies: HobbyModel[]
+        if (doc.exists) {
+            const hobbies = doc.data() as {
+                hobbies: HobbyModel[]
+            }
+            return hobbies.hobbies
+        } else {
+            return []
         }
-        return hobbies.hobbies
     } catch (e) {
         console.log(e)
+        return []
     }
 }
 
@@ -49,13 +59,15 @@ export const uploadPhotos = async (photos: string[]) => {
 export const uploadUser = async (data: ProfileData, photoUrls: string[]) => {
     try {
         const {_stage: _, ...dataStoringData} = data
-        const token = await messaging().getToken()
-        return await firestore()
+        console.log("userData: " + auth().currentUser?.uid)
+        await firestore()
             .collection('Profiles')
             .doc(auth().currentUser?.uid)
             .set({...dataStoringData, photos: photoUrls, uid: auth().currentUser?.uid})
+        return true
     } catch (e) {
-        console.log(e)
+        console.log("uploadUser: " + e)
+        return false
     }
 }
 
@@ -63,7 +75,8 @@ export const registerMessagingUser = async () => {
     try {
         const url = config.BASE_URL + "/register"
         const data = {
-            fcmToken: messaging().getToken(),
+            name: "",
+            fcmToken: await messaging().getToken(),
             uid: auth().currentUser?.uid
         }
         const header = {
@@ -72,8 +85,10 @@ export const registerMessagingUser = async () => {
             }
         }
         await axios.post(url, data, header)
+        return true
     } catch (e) {
-        console.log(e)
+        console.log("registerMessaging: " + e)
+        return false
     }
 }
 
@@ -92,7 +107,7 @@ export const sendNotification = async (name: string, uid: string) => {
         }
         await axios.post(url, data, header)
     } catch (e) {
-        console.log(e)
+        console.log("sendNotification: " + e)
     }
 }
 
@@ -120,11 +135,14 @@ export const createChatUser = async (name: string, photo: string) => {
             Config.COMETCHAT_APP_REGION
         }
     }
-
+    console.log("headers: "+ headers.headers)
+    console.log("url: " + url)
     try {
-        axios.post(url, body, headers)
+        await axios.post(url, body, headers)
+        return true
     } catch (e) {
-        console.log(e)
+        console.log("createChatUser: " + e)
+        return false
     }
 }
 
@@ -146,7 +164,7 @@ export const profileExists = async (uid: string) => {
         }
         return true
     } catch (e) {
-        console.log(e)
+        console.log("Profile exists: " + e)
         return false
     }
 }
@@ -208,10 +226,15 @@ export const getProfiles = async () => {
                     )
                 }
                 return filtered
+            } else {
+                return []
             }
+        } else {
+            return []
         }
     } catch (e) {
         console.log("getProfiles: " + e)
+        return []
     }
 }
 
@@ -258,8 +281,11 @@ export const getChats = async () => {
                     photo: doc.data().user_B_photo as string
                 }
             })
+        } else {
+            return []
         }
     } catch (e) {
         console.log(e)
+        return []
     }
 }

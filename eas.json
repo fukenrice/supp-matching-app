@@ -5,7 +5,14 @@
   "build": {
     "development": {
       "distribution": "internal",
+      "env": {
+        "COMETCHAT_APP_ID": "2449685e11a366a7",
+        "COMETCHAT_APP_REGION": "eu",
+        "COMETCHAT_AUTH_KEY": "55181791e6eacec7e2e592b169651f9e7ad2ed35",
+        "COMETCHAT_API_KEY": "30699d39f660f3d678bd5346ce54a38f00d623f5"
+      },
       "android": {
+        "buildType": "apk",
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
