@@ -15,6 +15,7 @@ import Config from "react-native-config";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from '@expo/vector-icons';
 import {logout} from "../../redux/action-creators/ProfileActionCreators";
+import Spinner from "react-native-loading-spinner-overlay";
 
 
 export default function MatchingScreen() {
@@ -30,6 +31,8 @@ export default function MatchingScreen() {
     const [userProfile, setUserProfile] = useState<ProfileData>()
     const nav = useNavigation<any>()
     const dispatch = useDispatch()
+    const [spinner, setSpinner] = useState(false)
+
 
     useEffect(() => {
         fetchData()
@@ -58,14 +61,13 @@ export default function MatchingScreen() {
                 if (profile.liked?.includes(userProfile?.uid!)) {
                     // TODO: make alert modal
                     sendNotification(userProfile?.name!, profile.uid!)
-
                     Alert.alert("Мэтч!", `Поздравляю, у вас взаимная симпатия c пользователем ${profile.name}! Вы можете написать ему/ей на странице с чатами. Удачи в общении!`)
                     addChat(userProfile?.uid!,
                         userProfile?.name!,
                         userProfile?.photos[0]!,
-                        profiles[index].uid!,
-                        profiles[index].name,
-                        profiles[index].photos[0])
+                        profile.uid!,
+                        profile.name,
+                        profile.photos[0])
                 }
             }
         }).catch((e) => console.log(e))
@@ -94,20 +96,32 @@ export default function MatchingScreen() {
 
 
     const fetchData = async () => {
-        const remoteProfiles = await getProfiles()
-        const profile = await getUserProfile(auth().currentUser?.uid!)
+        setSpinner(true)
+        const [remoteProfiles, profile] = await Promise.all([getProfiles(), getUserProfile(auth().currentUser?.uid!)])
         if (!profile) {
             alert('Error getting profile, please try again later.');
             await auth().signOut();
             nav.replace("Login")
         }
         setUserProfile(profile)
-        setProfiles(prevState => [...remoteProfiles!])
+        // setProfiles(prevState => [...remoteProfiles!])
+        setProfiles(prevState => {
+            if (remoteProfiles.length === 1) {
+                setShowBack(false)
+            }
+            return remoteProfiles
+        })
         setCardLength(remoteProfiles!.length)
+        setSpinner(false)
     }
 
 
     return <View style={styles.container}>
+        <Spinner
+            visible={spinner}
+            textContent={'Загружаю профили...'}
+            textStyle={{color: "white"}}
+        />
         <View style={{alignItems: "flex-start"}}>
             <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%"}}>
                 <Text style={{...loginHintsText, marginBottom: 10}}>
