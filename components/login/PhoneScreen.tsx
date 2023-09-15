@@ -6,7 +6,7 @@ import PhoneInput from "react-native-phone-number-input";
 import ButtonInactive from "../buttons/ButtonInactive";
 import Spinner from "react-native-loading-spinner-overlay";
 
-export default function PhoneScreen({authFun}: {authFun: (val: string) => void }) {
+export default function PhoneScreen({authFun}: {authFun: (val: string) => Promise<boolean> }) {
     const [value, setValue] = useState("");
     const [formattedValue, setFormattedValue] = useState("");
     const phoneInput = useRef<PhoneInput>(null);
@@ -14,8 +14,11 @@ export default function PhoneScreen({authFun}: {authFun: (val: string) => void }
     const [spinner, setSpinner] = useState(false)
     const handlePhone = async () => {
         setSpinner(true)
-        await authFun(formattedValue)
+        const phoneSuccess = await authFun(formattedValue)
         setSpinner(false)
+        if (!phoneSuccess) {
+            alert("Что-то пошло не так")
+        }
     }
 
     return <KeyboardAvoidingView style={styles.container} behavior={"padding"}>

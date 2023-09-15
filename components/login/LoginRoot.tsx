@@ -51,9 +51,14 @@ export default function LoginRoot() {
     const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null)
 
     const signInWithPhoneNumber = async (phoneNumber: string) => {
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
-        dispatch(addPhone(phoneNumber))
+        return auth().signInWithPhoneNumber(phoneNumber).then((confirmation => {
+            setConfirm(confirmation);
+            dispatch(addPhone(phoneNumber))
+            return true
+        })).catch(e => {
+            console.log(e)
+            return false
+        });
     }
 
     // TODO: move auth logic to reducer
