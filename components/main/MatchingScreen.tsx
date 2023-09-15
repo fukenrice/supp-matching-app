@@ -20,7 +20,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 export default function MatchingScreen() {
 
-    var authKey = Config.COMETCHAT_AUTH_KEY;
+    var authKey = process.env.EXPO_PUBLIC_COMETCHAT_AUTH_KEY;
     const state = useSelector((state: RootState) => state.userProfile)
     const [profiles, setProfiles] = useState<ProfileData[]>([])
     const ref = useRef<Swiper<ProfileData>>(null)

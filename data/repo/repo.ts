@@ -84,6 +84,9 @@ export const registerMessagingUser = async () => {
                 "Content-Type": "application/json"
             }
         }
+        console.log("register messaging url: " + url)
+        console.log("Config: " + Config)
+        console.log("config.BASE_URL: " + config.BASE_URL)
         await axios.post(url, data, header)
         return true
     } catch (e) {
@@ -112,7 +115,7 @@ export const sendNotification = async (name: string, uid: string) => {
 }
 
 export const createChatUser = async (name: string, photo: string) => {
-    const url = `https://${Config.COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users`
+    const url = `https://${process.env.EXPO_PUBLIC_COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users`
     const body = {
         uid: auth().currentUser?.uid,
         name: name,
@@ -128,15 +131,15 @@ export const createChatUser = async (name: string, photo: string) => {
             Accept:
                 "application/json",
             appId:
-            Config.COMETCHAT_APP_ID,
+            process.env.EXPO_PUBLIC_COMETCHAT_APP_ID,
             apiKey:
-            Config.COMETCHAT_API_KEY,
+            process.env.EXPO_PUBLIC_COMETCHAT_API_KEY,
             region:
-            Config.COMETCHAT_APP_REGION
+            process.env.EXPO_PUBLIC_COMETCHAT_APP_REGION
         }
     }
     console.log("headers: "+ headers.headers)
-    console.log("url: " + url)
+    console.log("create chat user url: " + url)
     try {
         await axios.post(url, body, headers)
         return true
@@ -147,11 +150,11 @@ export const createChatUser = async (name: string, photo: string) => {
 }
 
 export const profileExists = async (uid: string) => {
-    const url = `https://${Config.COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users/${uid}`
+    const url = `https://${process.env.EXPO_PUBLIC_COMETCHAT_APP_ID}.api-eu.cometchat.io/v3/users/${uid}`
     const headers = {
         headers: {
             apiKey:
-            Config.COMETCHAT_API_KEY,
+            process.env.EXPO_PUBLIC_COMETCHAT_API_KEY,
         }
     }
     try {

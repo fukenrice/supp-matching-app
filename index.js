@@ -4,8 +4,8 @@ import {CometChat} from '@cometchat-pro/react-native-chat';
 import Config from "react-native-config";
 import {PermissionsAndroid} from 'react-native';
 
-var appID = Config.COMETCHAT_APP_ID;
-var region = Config.COMETCHAT_APP_REGION;
+var appID = process.env.EXPO_PUBLIC_COMETCHAT_APP_ID;
+var region = process.env.EXPO_PUBLIC_COMETCHAT_APP_REGION;
 
 var appSetting = new CometChat.AppSettingsBuilder()
     .subscribePresenceForAllUsers()

@@ -23,7 +23,7 @@
       "softwareKeyboardLayoutMode": "pan",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/supp-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fukenrice.supp"
