@@ -1187,7 +1187,7 @@ class CometChatMessageList extends React.PureComponent {
           scrollEventThrottle={16}
           onEndReached={() => this.getMessages(true)}
           onEndReachedThreshold={0.3}
-          inverted={-1}
+          inverted={false}
           style={{ flex: 1, paddingHorizontal: 5 }}
           contentContainerStyle={!messages.length ? { flex: 1 } : {}}
           ListFooterComponent={
